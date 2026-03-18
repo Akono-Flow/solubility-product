@@ -1,0 +1,3136 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>K&#x209B;&#x209A; Explorer | CAPE Chemistry — Solubility Product</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}]})"></script>
+<style>
+/* ══════════════════════════════════════════
+   TOKENS
+══════════════════════════════════════════ */
+:root{
+  --rad:10px;--rad-s:6px;--rad-l:16px;--rad-xl:24px;
+  --fs:16px;--lh:1.7;
+  --ease:0.25s cubic-bezier(.4,0,.2,1);
+  --ease-spring:0.35s cubic-bezier(.34,1.56,.64,1);
+}
+[data-theme="dark"]{
+  --bg:#09141e;
+  --bg2:#0e1d2c;
+  --surf:#112035;
+  --surf2:#162840;
+  --surf3:#1b3050;
+  --bdr:#1c3550;
+  --bdr2:#234065;
+  --txt:#c5daea;
+  --txt-s:#5e86a3;
+  --txt-m:#2e506d;
+  --hdr:#07111a;
+  --tab:#0c1a27;
+  --acc:#19c794;
+  --acc-h:#12a87d;
+  --acc-g:rgba(25,199,148,.13);
+  --acc-gr:rgba(25,199,148,.06);
+  --blue:#4db0e8;
+  --blue-g:rgba(77,176,232,.13);
+  --blue-gr:rgba(77,176,232,.06);
+  --gold:#e8a84d;
+  --gold-g:rgba(232,168,77,.13);
+  --red:#e85c5c;
+  --red-g:rgba(232,92,92,.13);
+  --grn:#4de880;
+  --grn-g:rgba(77,232,128,.13);
+  --shadow:0 4px 24px rgba(0,0,0,.5);
+  --shadow-l:0 2px 10px rgba(0,0,0,.35);
+  --glow:0 0 28px rgba(25,199,148,.2);
+  --glow-b:0 0 28px rgba(77,176,232,.15);
+}
+[data-theme="light"]{
+  --bg:#eef4fb;
+  --bg2:#e4eef8;
+  --surf:#fff;
+  --surf2:#f2f7fc;
+  --surf3:#e0ecf8;
+  --bdr:#c8daea;
+  --bdr2:#b0cce0;
+  --txt:#0e2035;
+  --txt-s:#4a6a85;
+  --txt-m:#8aaabb;
+  --hdr:#0c2036;
+  --tab:#dceaf7;
+  --acc:#0d9e74;
+  --acc-h:#0b8762;
+  --acc-g:rgba(13,158,116,.12);
+  --acc-gr:rgba(13,158,116,.05);
+  --blue:#1a7fc4;
+  --blue-g:rgba(26,127,196,.12);
+  --blue-gr:rgba(26,127,196,.05);
+  --gold:#b8762a;
+  --gold-g:rgba(184,118,42,.12);
+  --red:#c0403a;
+  --red-g:rgba(192,64,58,.12);
+  --grn:#208c4a;
+  --grn-g:rgba(32,140,74,.12);
+  --shadow:0 2px 12px rgba(0,0,0,.09);
+  --shadow-l:0 1px 6px rgba(0,0,0,.07);
+  --glow:0 0 20px rgba(13,158,116,.15);
+  --glow-b:0 0 20px rgba(26,127,196,.12);
+}
+
+/* ══════════════════════════════════════════
+   BASE
+══════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:var(--fs);scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);color:var(--txt);
+  min-height:100vh;line-height:var(--lh);
+  transition:background var(--ease),color var(--ease);
+}
+a{color:var(--acc);text-decoration:none}
+a:hover{text-decoration:underline}
+::selection{background:var(--acc-g);color:var(--acc)}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:3px}
+
+/* ══════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════ */
+#hdr{
+  background:var(--hdr);
+  border-bottom:2px solid var(--acc);
+  padding:0 1.5rem;
+  position:sticky;top:0;z-index:200;
+  display:flex;align-items:center;gap:1rem;
+  min-height:62px;
+}
+.logo{display:flex;align-items:center;gap:.75rem;flex-shrink:0;text-decoration:none}
+.logo-badge{
+  width:44px;height:44px;
+  background:linear-gradient(145deg,var(--acc),var(--blue));
+  border-radius:10px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:'Crimson Pro',serif;font-weight:700;
+  color:#fff;line-height:1.1;
+  box-shadow:var(--glow);
+}
+.logo-badge .k{font-size:1.15rem}
+.logo-badge .sp{font-size:.6rem;letter-spacing:.04em;opacity:.9}
+.logo-text .name{
+  font-family:'Crimson Pro',serif;font-size:1.15rem;font-weight:700;
+  color:#deeeff;letter-spacing:.01em;
+}
+.logo-text .sub{font-size:.66rem;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;margin-top:1px}
+.hdr-right{margin-left:auto;display:flex;align-items:center;gap:.4rem;flex-shrink:0}
+.hbtn{
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.1);
+  color:rgba(255,255,255,.75);
+  border-radius:var(--rad-s);
+  padding:.3rem .55rem;cursor:pointer;
+  font-size:.78rem;font-family:'DM Sans',sans-serif;
+  display:flex;align-items:center;gap:.3rem;
+  transition:all .2s;white-space:nowrap;
+}
+.hbtn:hover{background:rgba(255,255,255,.14);color:#fff}
+.hbtn.active{background:var(--acc-g);border-color:var(--acc);color:var(--acc)}
+.fs-grp{display:flex;align-items:center;gap:2px}
+.fs-grp .hbtn{padding:.3rem .5rem;font-size:.9rem;font-weight:600}
+.theme-icon{font-size:.9rem}
+
+/* ══════════════════════════════════════════
+   TAB NAV
+══════════════════════════════════════════ */
+#tnav-wrap{
+  background:var(--tab);
+  border-bottom:1px solid var(--bdr);
+  position:sticky;top:62px;z-index:190;
+  overflow-x:auto;
+}
+#tnav-wrap::-webkit-scrollbar{height:3px}
+#tnav{display:flex;padding:0 1rem;gap:0;min-width:max-content}
+.tbtn{
+  display:flex;align-items:center;gap:.4rem;
+  padding:.7rem 1rem;
+  background:none;border:none;
+  border-bottom:3px solid transparent;
+  color:var(--txt-s);cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:500;
+  white-space:nowrap;transition:all .2s;
+  margin-bottom:-1px;
+}
+.tbtn:hover{color:var(--txt)}
+.tbtn.active{color:var(--acc);border-bottom-color:var(--acc);font-weight:600}
+.tbtn .ico{font-size:1rem;line-height:1}
+.tab-badge{
+  background:var(--acc);color:#fff;
+  font-size:.6rem;font-weight:700;
+  border-radius:10px;padding:1px 5px;
+  line-height:1.4;
+}
+
+/* ══════════════════════════════════════════
+   MAIN LAYOUT
+══════════════════════════════════════════ */
+#main{max-width:1160px;margin:0 auto;padding:2rem 1.5rem 4rem}
+.tpanel{display:none}
+.tpanel.active{display:block;animation:fadeUp .3s var(--ease)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Page title ── */
+.pg-head{margin-bottom:2rem}
+.pg-title{
+  font-family:'Crimson Pro',serif;
+  font-size:2rem;font-weight:700;
+  color:var(--txt);margin-bottom:.25rem;
+  display:flex;align-items:center;gap:.6rem;
+}
+.pg-title .pg-ico{font-size:1.5rem}
+.pg-sub{
+  color:var(--txt-s);font-size:.85rem;
+  display:flex;align-items:center;gap:.6rem;
+}
+.pg-sub::before{
+  content:'';display:inline-block;
+  width:28px;height:2px;
+  background:linear-gradient(90deg,var(--acc),var(--blue));
+  border-radius:2px;flex-shrink:0;
+}
+.obj-chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem}
+.chip{
+  background:var(--acc-g);border:1px solid var(--acc);
+  color:var(--acc);font-size:.72rem;font-weight:600;
+  border-radius:20px;padding:.2rem .65rem;
+  letter-spacing:.03em;
+}
+.chip.blue{background:var(--blue-g);border-color:var(--blue);color:var(--blue)}
+.chip.gold{background:var(--gold-g);border-color:var(--gold);color:var(--gold)}
+
+/* ══════════════════════════════════════════
+   CARDS
+══════════════════════════════════════════ */
+.card{
+  background:var(--surf);
+  border:1px solid var(--bdr);
+  border-radius:var(--rad);
+  padding:1.3rem;
+  box-shadow:var(--shadow-l);
+  transition:border-color .2s,box-shadow .2s;
+}
+.card:hover{box-shadow:var(--shadow)}
+.card+.card,.card+.coll,.coll+.card,.coll+.coll{margin-top:.75rem}
+.card-title{
+  font-family:'Crimson Pro',serif;
+  font-size:1.2rem;font-weight:700;
+  color:var(--txt);margin-bottom:.75rem;
+  display:flex;align-items:center;gap:.5rem;
+}
+.card-title .cico{color:var(--acc);font-size:1.1rem}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+@media(max-width:700px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+/* ══════════════════════════════════════════
+   COLLAPSIBLES
+══════════════════════════════════════════ */
+.coll{
+  background:var(--surf);
+  border:1px solid var(--bdr);
+  border-radius:var(--rad);
+  overflow:hidden;
+  transition:border-color .2s,box-shadow .2s;
+}
+.coll:hover{box-shadow:var(--shadow-l)}
+.coll.open{border-color:var(--acc);box-shadow:var(--glow)}
+.coll-hdr{
+  display:flex;align-items:center;gap:.75rem;
+  padding:1rem 1.2rem;cursor:pointer;
+  user-select:none;transition:background .2s;
+}
+.coll-hdr:hover{background:var(--surf2)}
+.coll.open .coll-hdr{background:var(--acc-gr)}
+.coll-num{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--acc-g);border:1.5px solid var(--acc);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;font-weight:700;color:var(--acc);flex-shrink:0;
+  font-family:'JetBrains Mono',monospace;
+}
+.coll-ico{font-size:1.1rem;flex-shrink:0}
+.coll-title{flex:1;font-weight:600;font-size:.95rem;color:var(--txt)}
+.coll-hint{font-size:.72rem;color:var(--txt-s);flex-shrink:0;display:none}
+@media(min-width:600px){.coll-hint{display:block}}
+.coll-arr{color:var(--txt-s);transition:transform .3s;flex-shrink:0;font-size:.8rem}
+.coll.open .coll-arr{transform:rotate(180deg)}
+.coll-body{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.4,0,.2,1)}
+.coll.open .coll-body{max-height:6000px}
+.coll-inner{padding:1.25rem 1.5rem 1.5rem;border-top:1px solid var(--bdr)}
+
+/* ══════════════════════════════════════════
+   NOTE CONTENT STYLES
+══════════════════════════════════════════ */
+.note-h3{
+  font-family:'Crimson Pro',serif;
+  font-size:1.15rem;font-weight:700;
+  color:var(--txt);margin:1.1rem 0 .4rem;
+}
+.note-h3:first-child{margin-top:0}
+.note-p{color:var(--txt);line-height:1.75;margin-bottom:.7rem;font-size:.95rem}
+.note-ul{list-style:none;margin:.4rem 0 .8rem;padding-left:.5rem}
+.note-ul li{
+  padding:.3rem 0 .3rem 1.4rem;
+  position:relative;color:var(--txt);
+  line-height:1.65;font-size:.92rem;
+}
+.note-ul li::before{
+  content:'▸';position:absolute;left:0;top:.35rem;
+  color:var(--acc);font-size:.75rem;
+}
+.note-ul.disc li::before{content:'•';font-size:1rem;top:.3rem}
+.note-ul.num{counter-reset:li}
+.note-ul.num li::before{
+  counter-increment:li;content:counter(li)'.';
+  color:var(--acc);font-weight:700;font-size:.8rem;top:.38rem;
+}
+.def-box{
+  background:var(--acc-gr);
+  border-left:3px solid var(--acc);
+  border-radius:0 var(--rad-s) var(--rad-s) 0;
+  padding:.85rem 1rem;margin:.75rem 0;
+  font-size:.92rem;line-height:1.65;
+}
+.def-box strong{color:var(--acc);font-weight:700}
+.info-box{
+  background:var(--blue-gr);
+  border:1px solid var(--blue);
+  border-radius:var(--rad-s);
+  padding:.75rem 1rem;margin:.75rem 0;
+  font-size:.88rem;display:flex;gap:.6rem;
+}
+.info-box .ib-ico{font-size:1.1rem;flex-shrink:0;margin-top:.1rem}
+.info-box .ib-txt{line-height:1.65}
+.info-box strong{color:var(--blue)}
+.warn-box{
+  background:var(--gold-g);
+  border:1px solid var(--gold);
+  border-radius:var(--rad-s);
+  padding:.75rem 1rem;margin:.75rem 0;
+  font-size:.88rem;display:flex;gap:.6rem;
+}
+.warn-box strong{color:var(--gold)}
+.eq-display{
+  background:var(--surf2);
+  border:1px solid var(--bdr2);
+  border-radius:var(--rad);
+  padding:1rem 1.5rem;
+  margin:.75rem 0;
+  text-align:center;
+  font-size:1.05rem;
+  overflow-x:auto;
+}
+
+/* Examples table */
+.ex-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.75rem;margin:.75rem 0}
+.ex-card{
+  background:var(--surf2);border:1px solid var(--bdr2);
+  border-radius:var(--rad-s);padding:.85rem;
+}
+.ex-card .ex-formula{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.95rem;color:var(--acc);font-weight:600;
+  margin-bottom:.3rem;
+}
+.ex-card .ex-ksp{
+  font-size:.88rem;color:var(--txt-s);
+  font-family:'JetBrains Mono',monospace;
+}
+
+/* ══════════════════════════════════════════
+   WORKED EXAMPLE STEPS
+══════════════════════════════════════════ */
+.worked{
+  background:var(--surf2);
+  border:1px solid var(--bdr2);
+  border-radius:var(--rad);
+  overflow:hidden;margin:1rem 0;
+}
+.worked-q{
+  background:var(--acc-gr);
+  border-bottom:1px solid var(--bdr2);
+  padding:.85rem 1.2rem;
+  font-size:.9rem;font-weight:600;
+  display:flex;align-items:flex-start;gap:.5rem;
+}
+.worked-q .q-lbl{
+  background:var(--acc);color:#fff;
+  font-size:.65rem;font-weight:700;letter-spacing:.08em;
+  border-radius:4px;padding:.15rem .5rem;
+  flex-shrink:0;margin-top:.1rem;
+}
+.step-list{list-style:none;padding:0}
+.step{
+  display:flex;gap:.8rem;align-items:flex-start;
+  padding:.8rem 1.2rem;
+  border-bottom:1px solid var(--bdr);
+}
+.step:last-child{border-bottom:none}
+.step-n{
+  width:24px;height:24px;
+  background:var(--surf3);border:1px solid var(--bdr2);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;font-weight:700;color:var(--txt-s);
+  flex-shrink:0;font-family:'JetBrains Mono',monospace;
+  margin-top:.15rem;
+}
+.step-c{flex:1;font-size:.9rem;line-height:1.7}
+.step-eq{
+  background:var(--surf3);
+  border-radius:var(--rad-s);
+  padding:.5rem .85rem;
+  margin:.4rem 0;
+  font-size:.95rem;overflow-x:auto;
+  text-align:center;
+}
+.step-ans{
+  background:var(--acc-g);
+  border:1px solid var(--acc);
+  border-radius:var(--rad-s);
+  padding:.4rem .85rem;
+  font-weight:600;color:var(--acc);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.9rem;margin-top:.4rem;
+  display:inline-block;
+}
+
+/* ══════════════════════════════════════════
+   CALCULATOR
+══════════════════════════════════════════ */
+.calc-mode-wrap{
+  display:flex;gap:.5rem;margin-bottom:1.25rem;flex-wrap:wrap;
+}
+.mode-btn{
+  background:var(--surf2);border:1px solid var(--bdr2);
+  border-radius:var(--rad-s);padding:.45rem .9rem;
+  cursor:pointer;font-size:.84rem;font-weight:500;
+  color:var(--txt-s);transition:all .2s;
+  font-family:'DM Sans',sans-serif;
+}
+.mode-btn:hover{border-color:var(--acc);color:var(--txt)}
+.mode-btn.active{
+  background:var(--acc-g);border-color:var(--acc);
+  color:var(--acc);font-weight:600;
+}
+.calc-panel{display:none}
+.calc-panel.active{display:block;animation:fadeUp .25s ease}
+.frm-group{margin-bottom:1rem}
+.frm-label{
+  display:block;font-size:.82rem;font-weight:600;
+  color:var(--txt-s);margin-bottom:.35rem;
+  letter-spacing:.04em;text-transform:uppercase;
+}
+.frm-input{
+  width:100%;
+  background:var(--surf2);
+  border:1.5px solid var(--bdr2);
+  border-radius:var(--rad-s);
+  padding:.6rem .85rem;
+  color:var(--txt);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.95rem;
+  transition:border-color .2s,box-shadow .2s;
+}
+.frm-input:focus{
+  outline:none;
+  border-color:var(--acc);
+  box-shadow:0 0 0 3px var(--acc-g);
+}
+.frm-select{
+  width:100%;
+  background:var(--surf2);
+  border:1.5px solid var(--bdr2);
+  border-radius:var(--rad-s);
+  padding:.6rem .85rem;
+  color:var(--txt);
+  font-family:'DM Sans',sans-serif;
+  font-size:.9rem;cursor:pointer;
+  transition:border-color .2s;
+  -webkit-appearance:none;
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235e86a3' d='M1.41 0L6 4.59 10.59 0 12 1.41l-6 6-6-6z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right .75rem center;
+  padding-right:2rem;
+}
+.frm-select:focus{outline:none;border-color:var(--acc)}
+.frm-hint{font-size:.75rem;color:var(--txt-s);margin-top:.3rem}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem}
+@media(max-width:560px){.row-2,.row-3{grid-template-columns:1fr}}
+.btn{
+  padding:.6rem 1.3rem;
+  background:var(--acc);color:#fff;
+  border:none;border-radius:var(--rad-s);
+  cursor:pointer;font-family:'DM Sans',sans-serif;
+  font-size:.9rem;font-weight:600;
+  transition:background .2s,transform .15s,box-shadow .2s;
+  box-shadow:0 2px 8px var(--acc-g);
+}
+.btn:hover{background:var(--acc-h);transform:translateY(-1px);box-shadow:0 4px 14px var(--acc-g)}
+.btn:active{transform:translateY(0)}
+.btn.sec{background:var(--surf3);color:var(--txt);box-shadow:none}
+.btn.sec:hover{background:var(--surf2)}
+.btn.blue-btn{background:var(--blue);box-shadow:0 2px 8px var(--blue-g)}
+.btn.blue-btn:hover{opacity:.9}
+.result-box{
+  background:var(--surf2);
+  border:1px solid var(--bdr2);
+  border-radius:var(--rad);
+  padding:1.25rem;margin-top:1rem;
+}
+.result-box.success{background:var(--acc-gr);border-color:var(--acc)}
+.result-box.error{background:var(--red-g);border-color:var(--red)}
+.result-title{
+  font-size:.72rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--txt-s);
+  margin-bottom:.75rem;
+}
+.result-row{
+  display:flex;justify-content:space-between;
+  align-items:flex-start;gap.5rem;
+  padding:.45rem 0;border-bottom:1px solid var(--bdr);
+  font-size:.9rem;
+}
+.result-row:last-child{border-bottom:none}
+.result-key{color:var(--txt-s);flex-shrink:0;margin-right:.5rem}
+.result-val{
+  font-family:'JetBrains Mono',monospace;
+  font-weight:600;color:var(--acc);text-align:right;
+}
+.result-val.big{font-size:1.25rem;color:var(--txt)}
+.result-eq{
+  background:var(--surf3);
+  border-radius:var(--rad-s);padding:.75rem 1rem;
+  text-align:center;margin:.6rem 0;
+  overflow-x:auto;font-size:1rem;
+}
+
+/* ══════════════════════════════════════════
+   KSP LIBRARY TABLE
+══════════════════════════════════════════ */
+.lib-toolbar{
+  display:flex;flex-wrap:wrap;gap:.6rem;
+  margin-bottom:1rem;align-items:center;
+}
+.search-wrap{position:relative;flex:1;min-width:180px}
+.search-wrap input{
+  width:100%;
+  background:var(--surf2);
+  border:1.5px solid var(--bdr2);
+  border-radius:var(--rad-s);
+  padding:.55rem .85rem .55rem 2.2rem;
+  color:var(--txt);font-family:'DM Sans',sans-serif;font-size:.88rem;
+  transition:border-color .2s;
+}
+.search-wrap input:focus{outline:none;border-color:var(--acc)}
+.search-wrap .s-ico{
+  position:absolute;left:.65rem;top:50%;transform:translateY(-50%);
+  color:var(--txt-m);font-size:.95rem;pointer-events:none;
+}
+.filter-btns{display:flex;gap:.35rem;flex-wrap:wrap}
+.fbtn{
+  background:var(--surf2);border:1px solid var(--bdr2);
+  border-radius:20px;padding:.3rem .7rem;
+  cursor:pointer;font-size:.78rem;color:var(--txt-s);
+  transition:all .18s;white-space:nowrap;
+  font-family:'DM Sans',sans-serif;
+}
+.fbtn:hover{border-color:var(--acc);color:var(--acc)}
+.fbtn.active{background:var(--acc-g);border-color:var(--acc);color:var(--acc);font-weight:600}
+.tbl-wrap{overflow-x:auto;border-radius:var(--rad);border:1px solid var(--bdr)}
+table{width:100%;border-collapse:collapse;font-size:.87rem}
+thead th{
+  background:var(--surf3);
+  padding:.75rem 1rem;text-align:left;
+  font-size:.72rem;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--txt-s);
+  border-bottom:2px solid var(--bdr2);
+  white-space:nowrap;cursor:pointer;user-select:none;
+}
+thead th:hover{color:var(--acc)}
+thead th.sorted{color:var(--acc)}
+tbody tr{
+  border-bottom:1px solid var(--bdr);
+  transition:background .15s;
+}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--surf2)}
+td{padding:.65rem 1rem;vertical-align:middle}
+td.td-name{font-weight:600;color:var(--txt)}
+td.td-formula{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--acc)}
+td.td-ksp{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--blue)}
+td.td-pksp{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--txt-s)}
+td.td-sol{font-size:.8rem}
+.sol-badge{
+  display:inline-flex;align-items:center;
+  border-radius:12px;padding:.15rem .55rem;
+  font-size:.72rem;font-weight:700;
+}
+.sol-sparing{background:var(--gold-g);color:var(--gold);border:1px solid var(--gold)}
+.sol-insol{background:var(--red-g);color:var(--red);border:1px solid var(--red)}
+.sol-mod{background:var(--blue-g);color:var(--blue);border:1px solid var(--blue)}
+td.td-cat{font-size:.78rem;color:var(--txt-s)}
+.tbl-empty{text-align:center;padding:2.5rem;color:var(--txt-s);font-size:.9rem}
+.lib-stats{
+  font-size:.78rem;color:var(--txt-s);margin-top:.5rem;text-align:right;
+}
+.ksp-bar-wrap{margin-top:1.5rem}
+.ksp-bar-title{font-size:.78rem;color:var(--txt-s);margin-bottom:.4rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.ksp-bar{display:flex;align-items:center;gap:.5rem;margin:.2rem 0;font-size:.78rem}
+.ksp-bar-name{width:130px;flex-shrink:0;color:var(--txt-s);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ksp-bar-track{flex:1;background:var(--surf3);border-radius:4px;height:8px;overflow:hidden}
+.ksp-bar-fill{height:100%;border-radius:4px;transition:width .6s var(--ease)}
+.ksp-bar-val{width:80px;flex-shrink:0;text-align:right;font-family:'JetBrains Mono',monospace;color:var(--blue)}
+
+/* ══════════════════════════════════════════
+   SIMULATOR
+══════════════════════════════════════════ */
+.sim-tabs{display:flex;gap:.4rem;margin-bottom:1.25rem}
+.stab{
+  background:var(--surf2);border:1px solid var(--bdr2);
+  border-radius:var(--rad-s);padding:.45rem 1rem;
+  cursor:pointer;font-size:.85rem;font-weight:500;
+  color:var(--txt-s);transition:all .2s;
+  font-family:'DM Sans',sans-serif;
+}
+.stab:hover{border-color:var(--blue);color:var(--txt)}
+.stab.active{background:var(--blue-g);border-color:var(--blue);color:var(--blue);font-weight:600}
+.sim-panel{display:none}.sim-panel.active{display:block;animation:fadeUp .25s ease}
+canvas{display:block;border-radius:var(--rad-s);background:var(--surf2)}
+
+/* Sliders */
+.slider-row{display:flex;align-items:center;gap:.75rem;margin:.6rem 0}
+.slider-label{width:130px;flex-shrink:0;font-size:.82rem;color:var(--txt-s)}
+input[type=range]{
+  flex:1;-webkit-appearance:none;appearance:none;
+  height:4px;border-radius:2px;
+  background:linear-gradient(to right,var(--acc) 0%, var(--acc) var(--pct,50%),var(--bdr2) var(--pct,50%));
+  outline:none;cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--acc);
+  box-shadow:0 0 0 3px var(--acc-g);
+  border:2px solid var(--bg);cursor:pointer;
+}
+.slider-val{
+  width:70px;text-align:right;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.82rem;color:var(--acc);flex-shrink:0;
+}
+
+/* ══════════════════════════════════════════
+   SETTINGS
+══════════════════════════════════════════ */
+.settings-grid{display:grid;gap:1.25rem}
+.stg-section{
+  background:var(--surf);border:1px solid var(--bdr);
+  border-radius:var(--rad);overflow:hidden;
+}
+.stg-hdr{
+  background:var(--surf2);border-bottom:1px solid var(--bdr);
+  padding:.75rem 1.2rem;font-weight:700;font-size:.9rem;
+  display:flex;align-items:center;gap:.5rem;color:var(--txt);
+}
+.stg-row{
+  padding:.85rem 1.2rem;
+  display:flex;justify-content:space-between;align-items:center;
+  gap.75rem;border-bottom:1px solid var(--bdr);
+}
+.stg-row:last-child{border-bottom:none}
+.stg-info .stg-name{font-size:.9rem;font-weight:600;color:var(--txt);margin-bottom:.15rem}
+.stg-info .stg-desc{font-size:.77rem;color:var(--txt-s)}
+.toggle{
+  position:relative;width:44px;height:24px;flex-shrink:0;
+}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{
+  position:absolute;inset:0;border-radius:24px;
+  background:var(--surf3);cursor:pointer;
+  transition:background .2s;border:1.5px solid var(--bdr2);
+}
+.toggle-slider::before{
+  content:'';position:absolute;
+  width:18px;height:18px;border-radius:50%;
+  left:2px;top:1px;background:var(--txt-s);
+  transition:transform .2s,background .2s;
+}
+.toggle input:checked + .toggle-slider{background:var(--acc-g);border-color:var(--acc)}
+.toggle input:checked + .toggle-slider::before{transform:translateX(20px);background:var(--acc)}
+.stg-select{
+  background:var(--surf2);border:1.5px solid var(--bdr2);
+  border-radius:var(--rad-s);padding:.4rem .7rem;
+  color:var(--txt);font-family:'DM Sans',sans-serif;font-size:.84rem;
+  cursor:pointer;min-width:130px;
+}
+.stg-select:focus{outline:none;border-color:var(--acc)}
+.about-card{
+  background:linear-gradient(135deg,var(--surf),var(--surf2));
+  border:1px solid var(--bdr);border-radius:var(--rad);
+  padding:1.5rem;text-align:center;
+}
+.about-badge{
+  width:64px;height:64px;
+  background:linear-gradient(145deg,var(--acc),var(--blue));
+  border-radius:16px;margin:0 auto 1rem;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Crimson Pro',serif;font-size:1.5rem;font-weight:700;color:#fff;
+  box-shadow:var(--glow);
+}
+.about-title{font-family:'Crimson Pro',serif;font-size:1.4rem;font-weight:700;margin-bottom:.3rem}
+.about-sub{font-size:.82rem;color:var(--txt-s);margin-bottom:.5rem}
+.about-tags{display:flex;gap:.4rem;justify-content:center;flex-wrap:wrap;margin-top:.75rem}
+
+/* ══════════════════════════════════════════
+   UTILITY
+══════════════════════════════════════════ */
+.divider{border:none;border-top:1px solid var(--bdr);margin:1.25rem 0}
+.mt{margin-top:1rem}.mt2{margin-top:1.5rem}.mb{margin-bottom:.75rem}
+.txt-acc{color:var(--acc)}
+.txt-blue{color:var(--blue)}
+.txt-s{color:var(--txt-s);font-size:.88rem}
+.monospace{font-family:'JetBrains Mono',monospace}
+.bold{font-weight:700}
+.flex-end{display:flex;justify-content:flex-end;gap:.5rem}
+.inline-flex{display:flex;align-items:center;gap:.5rem}
+.scroll-x{overflow-x:auto}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE ADJUSTMENTS
+══════════════════════════════════════════ */
+@media(max-width:640px){
+  #main{padding:1.25rem 1rem 3rem}
+  .pg-title{font-size:1.6rem}
+  .hdr-right .hbtn span{display:none}
+  .worked-q{flex-direction:column;gap:.3rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════ -->
+<header id="hdr">
+  <div class="logo">
+    <div class="logo-badge">
+      <span class="k">K</span>
+      <span class="sp">sp</span>
+    </div>
+    <div class="logo-text">
+      <div class="name">K<sub>sp</sub> Explorer</div>
+      <div class="sub">CAPE Chemistry · Unit 1 · Module 2</div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <div class="fs-grp">
+      <button class="hbtn" id="fs-down" title="Decrease font size">A−</button>
+      <button class="hbtn" id="fs-reset" title="Reset font size" style="font-size:.72rem">100%</button>
+      <button class="hbtn" id="fs-up" title="Increase font size">A+</button>
+    </div>
+    <button class="hbtn" id="theme-btn" title="Toggle theme">
+      <span class="theme-icon">🌙</span>
+      <span>Dark</span>
+    </button>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════
+     TAB NAVIGATION
+══════════════════════════════════════════ -->
+<nav id="tnav-wrap">
+  <div id="tnav">
+    <button class="tbtn active" data-tab="notes"><span class="ico">📚</span> Notes</button>
+    <button class="tbtn" data-tab="calculations"><span class="ico">🧮</span> Calculations</button>
+    <button class="tbtn" data-tab="calculator"><span class="ico">⚗️</span> K<sub>sp</sub> Solver</button>
+    <button class="tbtn" data-tab="library"><span class="ico">🗂️</span> K<sub>sp</sub> Library <span class="tab-badge">100+</span></button>
+    <button class="tbtn" data-tab="simulator"><span class="ico">🔬</span> Simulator</button>
+    <button class="tbtn" data-tab="settings"><span class="ico">⚙️</span> Settings</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     MAIN
+══════════════════════════════════════════ -->
+<main id="main">
+
+<!-- ═══════════════ NOTES ═══════════════ -->
+<section class="tpanel active" id="tab-notes">
+  <div class="pg-head">
+    <div class="pg-title"><span class="pg-ico">📚</span> Solubility Product Notes</div>
+    <div class="pg-sub">CAPE Chemistry Unit 1 · Module 2: Kinetics and Equilibria · Section 5</div>
+    <div class="obj-chips">
+      <span class="chip">5.1 Define K<sub>sp</sub></span>
+      <span class="chip">5.2 Common Ion Effect</span>
+      <span class="chip blue">5.3 Calculations</span>
+      <span class="chip gold">5.4 Selective Precipitation</span>
+    </div>
+  </div>
+
+  <!-- Quick expand/collapse -->
+  <div class="inline-flex mb">
+    <button class="btn sec" id="expand-all" style="font-size:.8rem;padding:.4rem .85rem">▼ Expand All</button>
+    <button class="btn sec" id="collapse-all" style="font-size:.8rem;padding:.4rem .85rem">▲ Collapse All</button>
+  </div>
+
+  <!-- 1. Solubility -->
+  <div class="coll open" id="note-1">
+    <div class="coll-hdr" onclick="toggleColl(this)">
+      <div class="coll-num">1</div>
+      <span class="coll-ico">💧</span>
+      <span class="coll-title">Solubility — Concepts and Terminology</span>
+      <span class="coll-hint">Objective 5.1</span>
+      <span class="coll-arr">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="coll-inner">
+        <div class="def-box">
+          <strong>Solubility</strong> is the maximum mass (or moles) of a solute that will dissolve in a given volume of solvent at a specific temperature to produce a saturated solution. It is typically measured in <strong>mol dm⁻³</strong> or g/100 g water.
+        </div>
+        <div class="note-p">Many ionic compounds dissolve in water, but some are only slightly soluble or appear to be insoluble. Even so-called 'insoluble' ionic compounds form some ions in solution — just to a very small extent. A solution is <strong>saturated</strong> when no more solute can dissolve.</div>
+        <div class="note-h3">Classification of Solubility</div>
+        <ul class="note-ul">
+          <li><strong>Soluble:</strong> Potassium chloride (KCl) — saturated solution contains 35.9 g/100 g water.</li>
+          <li><strong>Sparingly soluble:</strong> Calcium hydroxide Ca(OH)₂ — saturated solution contains 0.113 g/100 g water.</li>
+          <li><strong>'Insoluble' (sparingly soluble):</strong> Silver chloride (AgCl) — saturated solution contains only 1.93 × 10⁻⁴ g/100 g water.</li>
+        </ul>
+        <div class="info-box">
+          <span class="ib-ico">ℹ️</span>
+          <div class="ib-txt"><strong>Note:</strong> No ionic compound is truly "zero-solubility." Even the least soluble salts release some ions into solution. K<sub>sp</sub> quantifies this tiny but measurable dissolution.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Ksp Definition -->
+  <div class="coll" id="note-2">
+    <div class="coll-hdr" onclick="toggleColl(this)">
+      <div class="coll-num">2</div>
+      <span class="coll-ico">⚖️</span>
+      <span class="coll-title">Solubility Product K<sub>sp</sub> — Definition and Equilibrium</span>
+      <span class="coll-hint">Objective 5.1</span>
+      <span class="coll-arr">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="coll-inner">
+        <div class="note-p">When a sparingly soluble or 'insoluble' salt is added to water, an equilibrium is established between the ions in solution and the ions in the solid. Ions move from the solid to solution at the same rate they move from solution to solid.</div>
+        <div class="note-h3">Equilibrium for Silver Iodide</div>
+        <div class="eq-display">\[ \text{AgI}(s) \rightleftharpoons \text{Ag}^+(aq) + \text{I}^-(aq) \]</div>
+        <div class="note-p">The general equilibrium expression would be:</div>
+        <div class="eq-display">\[ K = \frac{[\text{Ag}^+(aq)][\text{I}^-(aq)]}{[\text{AgI}(s)]} \]</div>
+        <div class="note-p">Since the concentration of a pure solid is constant (and therefore incorporated into K), we write the simplified expression:</div>
+        <div class="eq-display" style="font-size:1.2rem">\[ K_{sp} = [\text{Ag}^+][\text{I}^-] \]</div>
+        <div class="def-box">
+          <strong>Solubility Product (K<sub>sp</sub>)</strong> is the product of the concentrations of each ion in a saturated solution of a sparingly soluble salt at 298 K (25°C), with each concentration raised to the power of its stoichiometric coefficient in the dissolution equation.
+        </div>
+        <div class="note-h3">General Formula</div>
+        <div class="note-p">For a salt that dissolves as: \(\text{M}_m\text{A}_n(s) \rightleftharpoons m\text{M}^{n+}(aq) + n\text{A}^{m-}(aq)\)</div>
+        <div class="eq-display">\[ K_{sp} = [\text{M}^{n+}]^m[\text{A}^{m-}]^n \]</div>
+        <div class="note-h3">Further Examples</div>
+        <div class="ex-grid">
+          <div class="ex-card">
+            <div class="ex-formula">Co(OH)₂</div>
+            <div class="note-p" style="font-size:.82rem;margin:0">Ion ratio: Co²⁺ and 2OH⁻</div>
+            <div class="ex-ksp">\( K_{sp} = [\text{Co}^{2+}][\text{OH}^-]^2 \)</div>
+          </div>
+          <div class="ex-card">
+            <div class="ex-formula">Al₂O₃</div>
+            <div class="note-p" style="font-size:.82rem;margin:0">Ion ratio: 2Al³⁺ and 3O²⁻</div>
+            <div class="ex-ksp">\( K_{sp} = [\text{Al}^{3+}]^2[\text{O}^{2-}]^3 \)</div>
+          </div>
+          <div class="ex-card">
+            <div class="ex-formula">Ca₃(PO₄)₂</div>
+            <div class="note-p" style="font-size:.82rem;margin:0">Ion ratio: 3Ca²⁺ and 2PO₄³⁻</div>
+            <div class="ex-ksp">\( K_{sp} = [\text{Ca}^{2+}]^3[\text{PO}_4^{3-}]^2 \)</div>
+          </div>
+          <div class="ex-card">
+            <div class="ex-formula">PbI₂</div>
+            <div class="note-p" style="font-size:.82rem;margin:0">Ion ratio: Pb²⁺ and 2I⁻</div>
+            <div class="ex-ksp">\( K_{sp} = [\text{Pb}^{2+}][\text{I}^-]^2 \)</div>
+          </div>
+        </div>
+        <div class="warn-box">
+          <span style="font-size:1.1rem;flex-shrink:0">⚠️</span>
+          <div><strong>Important:</strong> K<sub>sp</sub> only applies when there is excess undissolved solid in equilibrium with the saturated solution. If all solid dissolves, it is not a K<sub>sp</sub> situation.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Units -->
+  <div class="coll" id="note-3">
+    <div class="coll-hdr" onclick="toggleColl(this)">
+      <div class="coll-num">3</div>
+      <span class="coll-ico">📐</span>
+      <span class="coll-title">Units of K<sub>sp</sub></span>
+      <span class="coll-hint">Objective 5.1</span>
+      <span class="coll-arr">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="coll-inner">
+        <div class="note-p">Units for K<sub>sp</sub> are calculated in the same way as for general equilibrium expressions involving K<sub>c</sub> — by multiplying the units of each concentration term raised to its appropriate power.</div>
+        <div class="note-h3">Unit Examples</div>
+        <div class="card" style="margin:.5rem 0">
+          <div class="monospace" style="font-size:.88rem">
+            <div style="margin-bottom:.5rem"><span class="txt-acc">AgI:</span> K<sub>sp</sub> = [Ag⁺][I⁻]</div>
+            <div style="margin-bottom:.5rem">Units = (mol dm⁻³) × (mol dm⁻³) = <strong>mol² dm⁻⁶</strong></div>
+          </div>
+        </div>
+        <div class="card" style="margin:.5rem 0">
+          <div class="monospace" style="font-size:.88rem">
+            <div style="margin-bottom:.5rem"><span class="txt-acc">Co(OH)₂:</span> K<sub>sp</sub> = [Co²⁺][OH⁻]²</div>
+            <div style="margin-bottom:.5rem">Units = (mol dm⁻³) × (mol dm⁻³)² = <strong>mol³ dm⁻⁹</strong></div>
+          </div>
+        </div>
+        <div class="card" style="margin:.5rem 0">
+          <div class="monospace" style="font-size:.88rem">
+            <div style="margin-bottom:.5rem"><span class="txt-acc">Ca₃(PO₄)₂:</span> K<sub>sp</sub> = [Ca²⁺]³[PO₄³⁻]²</div>
+            <div>Units = (mol dm⁻³)³ × (mol dm⁻³)² = <strong>mol⁵ dm⁻¹⁵</strong></div>
+          </div>
+        </div>
+        <div class="note-h3">General Rule</div>
+        <div class="def-box">
+          For K<sub>sp</sub> = [cation]<sup>m</sup>[anion]<sup>n</sup>, the units are <strong>mol<sup>(m+n)</sup> dm<sup>−3(m+n)</sup></strong>
+        </div>
+        <div class="info-box">
+          <span class="ib-ico">📌</span>
+          <div class="ib-txt"><strong>Examiner's note:</strong> Some textbooks and exam mark schemes treat K<sub>sp</sub> as dimensionless (standard equilibrium constants have no units when activities are used). In CAPE, however, you are expected to include units in your K<sub>sp</sub> expressions. Always check mark schemes.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Common Ion Effect -->
+  <div class="coll" id="note-4">
+    <div class="coll-hdr" onclick="toggleColl(this)">
+      <div class="coll-num">4</div>
+      <span class="coll-ico">🔗</span>
+      <span class="coll-title">The Common Ion Effect</span>
+      <span class="coll-hint">Objective 5.2</span>
+      <span class="coll-arr">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="coll-inner">
+        <div class="def-box">
+          The <strong>common ion effect</strong> is the reduction in the solubility of a dissolved salt caused by adding a solution of a compound which has an ion in common with the dissolved salt.
+        </div>
+        <div class="note-h3">The Principle</div>
+        <div class="note-p">K<sub>sp</sub> is a constant at a given temperature. If the concentration of one of the ions is increased by adding a common-ion source, the equilibrium shifts to the <strong>left</strong> (Le Chatelier's Principle), causing more precipitate to form and reducing the solubility of the salt.</div>
+        <div class="note-h3">Classic Example: BaSO₄ in H₂SO₄</div>
+        <div class="eq-display">\[ K_{sp}(\text{BaSO}_4) = [\text{Ba}^{2+}][\text{SO}_4^{2-}] = 1.08 \times 10^{-10} \text{ mol}^2\text{dm}^{-6} \]</div>
+        <ul class="note-ul">
+          <li>Solubility of BaSO₄ in pure water: \( \sqrt{1.08 \times 10^{-10}} \approx 1.04 \times 10^{-5} \) mol dm⁻³</li>
+          <li>In 0.10 mol dm⁻³ H₂SO₄, [SO₄²⁻] ≈ 0.10 mol dm⁻³</li>
+          <li>So [Ba²⁺] = 1.08 × 10⁻¹⁰ ÷ 0.10 = <strong>1.08 × 10⁻⁹ mol dm⁻³</strong> — about 10,000× less soluble!</li>
+        </ul>
+        <div class="note-h3">Equilibrium Explanation</div>
+        <div class="eq-display">\[ \text{BaSO}_4(s) \rightleftharpoons \text{Ba}^{2+}(aq) + \text{SO}_4^{2-}(aq) \]</div>
+        <div class="note-p">Adding SO₄²⁻ ions shifts the equilibrium <strong>to the left</strong>. More BaSO₄ precipitates. The [Ba²⁺] must decrease to maintain K<sub>sp</sub>.</div>
+        <div class="note-h3">Practical Importance in Chemistry</div>
+        <ul class="note-ul">
+          <li><strong>Gravimetric Analysis:</strong> In the quantitative determination of sulphate ions, BaSO₄ is precipitated by adding barium chloride. The precipitate is then washed with dilute sulphuric acid (rather than water) to exploit the common ion effect — preventing re-dissolution of BaSO₄ during washing.</li>
+          <li><strong>Analytical Chemistry:</strong> The common ion effect is used to ensure completeness of precipitation reactions in quantitative work.</li>
+          <li><strong>Industrial applications:</strong> Controlling crystallisation and separation processes in manufacturing.</li>
+        </ul>
+        <div class="info-box">
+          <span class="ib-ico">🔬</span>
+          <div class="ib-txt">The common ion effect is a direct consequence of <strong>Le Chatelier's Principle</strong>: adding a product to an equilibrium system shifts the equilibrium away from that product, increasing the reverse reaction rate.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Predicting Precipitation -->
+  <div class="coll" id="note-5">
+    <div class="coll-hdr" onclick="toggleColl(this)">
+      <div class="coll-num">5</div>
+      <span class="coll-ico">🌧️</span>
+      <span class="coll-title">Predicting Precipitation — The Ionic Product Q</span>
+      <span class="coll-hint">Objective 5.4</span>
+      <span class="coll-arr">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="coll-inner">
+        <div class="note-p">Solubility product can be used to predict whether a precipitate will form when two solutions are mixed. We compare the <strong>ionic product (Q)</strong> with K<sub>sp</sub>.</div>
+        <div class="def-box">
+          <strong>Ionic Product (Q)</strong> — also called the reaction quotient — is the product of the ion concentrations at any point, not just at equilibrium. It has the same mathematical form as K<sub>sp</sub>.
+        </div>
+        <div class="note-h3">Decision Rules</div>
+        <div class="card" style="margin:.5rem 0;padding:1rem">
+          <div style="display:grid;gap:.6rem">
+            <div style="display:flex;align-items:center;gap.5rem;padding:.6rem;background:var(--red-g);border:1px solid var(--red);border-radius:var(--rad-s)">
+              <span style="font-size:1.1rem">🌧️</span>
+              <div><strong style="color:var(--red)">Q &gt; K<sub>sp</sub></strong> — Solution is supersaturated → <strong>precipitation occurs</strong> until Q = K<sub>sp</sub></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:.5rem;padding:.6rem;background:var(--gold-g);border:1px solid var(--gold);border-radius:var(--rad-s)">
+              <span style="font-size:1.1rem">⚖️</span>
+              <div><strong style="color:var(--gold)">Q = K<sub>sp</sub></strong> — Solution is exactly saturated → system is at <strong>equilibrium</strong></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:.5rem;padding:.6rem;background:var(--grn-g);border:1px solid var(--grn);border-radius:var(--rad-s)">
+              <span style="font-size:1.1rem">✅</span>
+              <div><strong style="color:var(--grn)">Q &lt; K<sub>sp</sub></strong> — Solution is unsaturated → <strong>no precipitation</strong>, more solid can dissolve</div>
+            </div>
+          </div>
+        </div>
+        <div class="note-h3">Selective Precipitation</div>
+        <div class="note-p">When two or more ions in solution have different K<sub>sp</sub> values for a common precipitating reagent, it is possible to <strong>selectively precipitate</strong> one ion while keeping the other in solution. This is the basis of many qualitative analysis techniques.</div>
+        <div class="note-h3">Example: Testing for Halide Ions with AgNO₃</div>
+        <ul class="note-ul">
+          <li>Silver nitrate (AgNO₃) is added to an unknown solution containing halide ions.</li>
+          <li>Ag⁺ ions react with Cl⁻, Br⁻, and I⁻ to form precipitates of AgCl, AgBr, AgI.</li>
+          <li>These precipitates can be distinguished by their characteristic colours: AgCl (white), AgBr (cream/pale yellow), AgI (yellow).</li>
+          <li>Because silver halides have very low K<sub>sp</sub> values, even a few drops of AgNO₃ causes precipitation.</li>
+        </ul>
+        <div class="eq-display">\[ \text{Ag}^+(aq) + \text{Cl}^-(aq) \rightarrow \text{AgCl}(s) \quad K_{sp} = 1.77 \times 10^{-10} \]</div>
+        <div class="note-h3">Kidney Stone Formation — A Biological Application</div>
+        <div class="info-box">
+          <span class="ib-ico">🫀</span>
+          <div class="ib-txt">Kidney stones form when the solubility product of certain salts naturally present in urine is exceeded. If urine is too concentrated, calcium phosphate (Ca₃(PO₄)₂) and calcium oxalate (CaC₂O₄) may precipitate. Elevated calcium ion concentration shifts the equilibrium, favouring precipitation of insoluble calcium salts — particularly if conditions become too alkaline.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Determining Ksp Experimentally -->
+  <div class="coll" id="note-6">
+    <div class="coll-hdr" onclick="toggleColl(this)">
+      <div class="coll-num">6</div>
+      <span class="coll-ico">🧪</span>
+      <span class="coll-title">Determining K<sub>sp</sub> by Experiment</span>
+      <span class="coll-hint">Objective 5.2</span>
+      <span class="coll-arr">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="coll-inner">
+        <div class="note-p">The experimental method is based on making a saturated solution of a particular substance and analysing it to find the concentration of one of the constituent ions.</div>
+        <div class="note-h3">Procedure — Determining K<sub>sp</sub> for Ca(OH)₂</div>
+        <ul class="note-ul num">
+          <li>Add enough calcium hydroxide to a known volume of water so that <strong>solid is present as well as a solution</strong>. Shake and leave for 24 hours to reach equilibrium.</li>
+          <li>Filter off the solid calcium hydroxide carefully using filter paper.</li>
+          <li>Titrate measured samples of the calcium hydroxide solution with hydrochloric acid of known concentration.</li>
+          <li>Calculate the concentration of the calcium hydroxide solution from the titration results.</li>
+          <li>Substitute into the equilibrium expression: \( K_{sp} = [\text{Ca}^{2+}][\text{OH}^-]^2 \)</li>
+        </ul>
+        <div class="note-h3">Calculation from Titration Data</div>
+        <div class="note-p">If titration shows [Ca(OH)₂] = <em>s</em> mol dm⁻³, then:</div>
+        <div class="eq-display">\[ [\text{Ca}^{2+}] = s \qquad [\text{OH}^-] = 2s \]</div>
+        <div class="eq-display">\[ K_{sp} = s \times (2s)^2 = 4s^3 \]</div>
+        <div class="info-box">
+          <span class="ib-ico">📌</span>
+          <div class="ib-txt"><strong>CAPE Practical Note:</strong> The syllabus suggests conducting a simple experiment to determine the solubility product of a substance. You should be prepared to plan, execute, and evaluate such an experiment in both school-based and external assessments.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Key Summary -->
+  <div class="coll" id="note-7">
+    <div class="coll-hdr" onclick="toggleColl(this)">
+      <div class="coll-num">7</div>
+      <span class="coll-ico">✅</span>
+      <span class="coll-title">Key Points Summary</span>
+      <span class="coll-hint">All Objectives</span>
+      <span class="coll-arr">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="coll-inner">
+        <ul class="note-ul">
+          <li>K<sub>sp</sub> is an expression showing the equilibrium concentration of ions in a saturated solution of a sparingly soluble salt. It takes into account the relative number of each ion.</li>
+          <li>The value of K<sub>sp</sub> can be calculated using the relevant equilibrium expression and the concentration of ions present at equilibrium.</li>
+          <li>The solubility of a sparingly soluble salt can be calculated using the value of K<sub>sp</sub> and the formula of the salt.</li>
+          <li>The common ion effect refers to the reduction in solubility of a dissolved salt by adding a solution containing an ion in common with the dissolved salt.</li>
+          <li>When the ionic product Q exceeds K<sub>sp</sub>, a salt is precipitated.</li>
+          <li>The solubility product of a salt can be found by determining the concentration of the ions in solution by titration or other methods.</li>
+          <li>K<sub>sp</sub> is temperature-dependent — it only applies at the temperature specified (usually 298 K).</li>
+        </ul>
+        <div class="grid-2" style="margin-top:1rem">
+          <div class="card" style="background:var(--acc-gr)">
+            <div style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--acc);margin-bottom:.5rem">K<sub>sp</sub> → Solubility</div>
+            <div class="monospace" style="font-size:.84rem">Given K<sub>sp</sub>, find s:<br>Express ions in terms of s<br>Solve algebraically</div>
+          </div>
+          <div class="card" style="background:var(--blue-gr)">
+            <div style="font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-bottom:.5rem">Solubility → K<sub>sp</sub></div>
+            <div class="monospace" style="font-size:.84rem">Given s, find K<sub>sp</sub>:<br>Find [ion] from s<br>Substitute into expression</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CALCULATIONS ═══════════════ -->
+<section class="tpanel" id="tab-calculations">
+  <div class="pg-head">
+    <div class="pg-title"><span class="pg-ico">🧮</span> Worked Calculations</div>
+    <div class="pg-sub">Step-by-step solutions covering all CAPE K<sub>sp</sub> calculation types</div>
+  </div>
+
+  <div class="inline-flex mb">
+    <button class="btn sec" id="calc-expand-all" style="font-size:.8rem;padding:.4rem .85rem">▼ Expand All</button>
+    <button class="btn sec" id="calc-collapse-all" style="font-size:.8rem;padding:.4rem .85rem">▲ Collapse All</button>
+  </div>
+
+  <!-- Type A: Ksp from solubility -->
+  <div class="coll open" id="calc-1">
+    <div class="coll-hdr" onclick="toggleColl(this)">
+      <div class="coll-num">A</div>
+      <span class="coll-ico">📊</span>
+      <span class="coll-title">Type A: Calculating K<sub>sp</sub> from Solubility</span>
+      <span class="coll-hint">Obj 5.3</span>
+      <span class="coll-arr">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="coll-inner">
+        <!-- Worked A1 -->
+        <div class="worked">
+          <div class="worked-q">
+            <span class="q-lbl">Q1</span>
+            <span>A saturated solution of lead iodide, PbI₂, contains 0.076 g of PbI₂ in 100 g solution. Calculate K<sub>sp</sub> for lead iodide. (M<sub>r</sub> of PbI₂ = 461.0 g mol⁻¹)</span>
+          </div>
+          <ul class="step-list">
+            <li class="step">
+              <div class="step-n">1</div>
+              <div class="step-c">
+                Calculate the concentration of PbI₂ in mol dm⁻³:
+                <div class="step-eq">\[ c = \frac{0.076}{461.0} \times \frac{1000}{100} = 1.65 \times 10^{-3} \text{ mol dm}^{-3} \]</div>
+              </div>
+            </li>
+            <li class="step">
+              <div class="step-n">2</div>
+              <div class="step-c">
+                Write the dissolution equation and identify ion concentrations:
+                <div class="step-eq">\[ \text{PbI}_2(s) \rightleftharpoons \text{Pb}^{2+}(aq) + 2\text{I}^-(aq) \]</div>
+                \([\text{Pb}^{2+}] = 1.65 \times 10^{-3} \text{ mol dm}^{-3}\)<br>
+                \([\text{I}^-] = 2 \times 1.65 \times 10^{-3} = 3.30 \times 10^{-3} \text{ mol dm}^{-3}\)
+              </div>
+            </li>
+            <li class="step">
+              <div class="step-n">3</div>
+              <div class="step-c">Write the K<sub>sp</sub> expression:<div class="step-eq">\[ K_{sp} = [\text{Pb}^{2+}][\text{I}^-]^2 \]</div></div>
+            </li>
+            <li class="step">
+              <div class="step-n">4</div>
+              <div class="step-c">
+                Substitute and calculate:
+                <div class="step-eq">\[ K_{sp} = (1.65 \times 10^{-3}) \times (3.30 \times 10^{-3})^2 = (1.65 \times 10^{-3}) \times (1.089 \times 10^{-5}) \]</div>
+                <div class="step-ans">K<sub>sp</sub> = 1.80 × 10⁻⁸ mol³ dm⁻⁹</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <!-- Worked A2 -->
+        <div class="worked" style="margin-top:1rem">
+          <div class="worked-q">
+            <span class="q-lbl">Q2</span>
+            <span>The solubility of calcium fluoride, CaF₂, is 2.15 × 10⁻⁴ mol dm⁻³ at 25°C. Calculate K<sub>sp</sub>.</span>
+          </div>
+          <ul class="step-list">
+            <li class="step">
+              <div class="step-n">1</div>
+              <div class="step-c">Write the dissolution equation:
+                <div class="step-eq">\[ \text{CaF}_2(s) \rightleftharpoons \text{Ca}^{2+}(aq) + 2\text{F}^-(aq) \]</div>
+                Let solubility = s = 2.15 × 10⁻⁴ mol dm⁻³<br>
+                \([\text{Ca}^{2+}] = s\) and \([\text{F}^-] = 2s\)
+              </div>
+            </li>
+            <li class="step">
+              <div class="step-n">2</div>
+              <div class="step-c">K<sub>sp</sub> expression: \(K_{sp} = [\text{Ca}^{2+}][\text{F}^-]^2 = s \times (2s)^2 = 4s^3\)</div>
+            </li>
+            <li class="step">
+              <div class="step-n">3</div>
+              <div class="step-c">
+                Calculate:
+                <div class="step-eq">\[ K_{sp} = 4 \times (2.15 \times 10^{-4})^3 = 4 \times 9.94 \times 10^{-12} \]</div>
+                <div class="step-ans">K<sub>sp</sub> = 3.98 × 10⁻¹¹ mol³ dm⁻⁹ ≈ 3.45 × 10⁻¹¹ (literature value)</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Type B: Solubility from Ksp -->
+  <div class="coll" id="calc-2">
+    <div class="coll-hdr" onclick="toggleColl(this)">
+      <div class="coll-num">B</div>
+      <span class="coll-ico">📈</span>
+      <span class="coll-title">Type B: Calculating Solubility from K<sub>sp</sub></span>
+      <span class="coll-hint">Obj 5.3</span>
+      <span class="coll-arr">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="coll-inner">
+        <!-- B1 -->
+        <div class="worked">
+          <div class="worked-q">
+            <span class="q-lbl">Q1</span>
+            <span>Calculate the solubility of calcium sulphate, CaSO₄, in mol dm⁻³. K<sub>sp</sub>(CaSO₄) = 4.93 × 10⁻⁵ mol² dm⁻⁶.</span>
+          </div>
+          <ul class="step-list">
+            <li class="step">
+              <div class="step-n">1</div>
+              <div class="step-c">Write the equilibrium: \(\text{CaSO}_4(s) \rightleftharpoons \text{Ca}^{2+}(aq) + \text{SO}_4^{2-}(aq)\)</div>
+            </li>
+            <li class="step">
+              <div class="step-n">2</div>
+              <div class="step-c">Let solubility = s. Then [Ca²⁺] = [SO₄²⁻] = s, so K<sub>sp</sub> = s × s = s²</div>
+            </li>
+            <li class="step">
+              <div class="step-n">3</div>
+              <div class="step-c">
+                <div class="step-eq">\[ s = \sqrt{K_{sp}} = \sqrt{4.93 \times 10^{-5}} \]</div>
+                <div class="step-ans">s = 7.02 × 10⁻³ mol dm⁻³</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <!-- B2 -->
+        <div class="worked" style="margin-top:1rem">
+          <div class="worked-q">
+            <span class="q-lbl">Q2</span>
+            <span>Calculate the solubility of magnesium hydroxide, Mg(OH)₂, in mol dm⁻³. K<sub>sp</sub>(Mg(OH)₂) = 5.61 × 10⁻¹² mol³ dm⁻⁹.</span>
+          </div>
+          <ul class="step-list">
+            <li class="step">
+              <div class="step-n">1</div>
+              <div class="step-c">Dissolution: \(\text{Mg(OH)}_2(s) \rightleftharpoons \text{Mg}^{2+}(aq) + 2\text{OH}^-(aq)\)</div>
+            </li>
+            <li class="step">
+              <div class="step-n">2</div>
+              <div class="step-c">Let solubility = s: [Mg²⁺] = s, [OH⁻] = 2s<br>K<sub>sp</sub> = (s)(2s)² = 4s³</div>
+            </li>
+            <li class="step">
+              <div class="step-n">3</div>
+              <div class="step-c">
+                <div class="step-eq">\[ s = \sqrt[3]{\frac{K_{sp}}{4}} = \sqrt[3]{\frac{5.61 \times 10^{-12}}{4}} = \sqrt[3]{1.40 \times 10^{-12}} \]</div>
+                <div class="step-ans">s = 1.12 × 10⁻⁴ mol dm⁻³</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Type C: Predicting Precipitation -->
+  <div class="coll" id="calc-3">
+    <div class="coll-hdr" onclick="toggleColl(this)">
+      <div class="coll-num">C</div>
+      <span class="coll-ico">🌧️</span>
+      <span class="coll-title">Type C: Predicting Precipitation using Ionic Product Q</span>
+      <span class="coll-hint">Obj 5.4</span>
+      <span class="coll-arr">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="coll-inner">
+        <!-- C1 -->
+        <div class="worked">
+          <div class="worked-q">
+            <span class="q-lbl">Q1</span>
+            <span>Will a precipitate form when 6.00 × 10⁻⁵ mol dm⁻³ BaCl₂ is added to an equal volume of 1.20 × 10⁻⁵ mol dm⁻³ Na₂SO₄? K<sub>sp</sub>(BaSO₄) = 1.08 × 10⁻¹⁰ mol² dm⁻⁶.</span>
+          </div>
+          <ul class="step-list">
+            <li class="step">
+              <div class="step-n">1</div>
+              <div class="step-c">
+                After mixing equal volumes, concentrations halve:<br>
+                [Ba²⁺] = 6.00 × 10⁻⁵ ÷ 2 = 3.00 × 10⁻⁵ mol dm⁻³<br>
+                [SO₄²⁻] = 1.20 × 10⁻⁵ ÷ 2 = 6.00 × 10⁻⁶ mol dm⁻³
+              </div>
+            </li>
+            <li class="step">
+              <div class="step-n">2</div>
+              <div class="step-c">Calculate ionic product Q:
+                <div class="step-eq">\[ Q = [\text{Ba}^{2+}][\text{SO}_4^{2-}] = (3.00 \times 10^{-5})(6.00 \times 10^{-6}) = 1.80 \times 10^{-10} \]</div>
+              </div>
+            </li>
+            <li class="step">
+              <div class="step-n">3</div>
+              <div class="step-c">
+                Compare Q with K<sub>sp</sub>:<br>
+                Q = 1.80 × 10⁻¹⁰ &gt; K<sub>sp</sub> = 1.08 × 10⁻¹⁰
+                <div class="step-ans">✓ Q > K<sub>sp</sub> → A precipitate of BaSO₄ WILL form.</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <!-- C2 -->
+        <div class="worked" style="margin-top:1rem">
+          <div class="worked-q">
+            <span class="q-lbl">Q2</span>
+            <span>What minimum concentration of Ag⁺ ions is needed to precipitate AgCl from a solution containing [Cl⁻] = 1.0 × 10⁻⁴ mol dm⁻³? K<sub>sp</sub>(AgCl) = 1.77 × 10⁻¹⁰ mol² dm⁻⁶.</span>
+          </div>
+          <ul class="step-list">
+            <li class="step">
+              <div class="step-n">1</div>
+              <div class="step-c">K<sub>sp</sub> expression: \(K_{sp} = [\text{Ag}^+][\text{Cl}^-]\)</div>
+            </li>
+            <li class="step">
+              <div class="step-n">2</div>
+              <div class="step-c">
+                Rearrange:
+                <div class="step-eq">\[ [\text{Ag}^+] = \frac{K_{sp}}{[\text{Cl}^-]} = \frac{1.77 \times 10^{-10}}{1.0 \times 10^{-4}} \]</div>
+                <div class="step-ans">[Ag⁺]<sub>min</sub> = 1.77 × 10⁻⁶ mol dm⁻³</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Type D: Common Ion Effect -->
+  <div class="coll" id="calc-4">
+    <div class="coll-hdr" onclick="toggleColl(this)">
+      <div class="coll-num">D</div>
+      <span class="coll-ico">🔗</span>
+      <span class="coll-title">Type D: Solubility with the Common Ion Effect</span>
+      <span class="coll-hint">Obj 5.2 &amp; 5.3</span>
+      <span class="coll-arr">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="coll-inner">
+        <!-- D1 -->
+        <div class="worked">
+          <div class="worked-q">
+            <span class="q-lbl">Q1</span>
+            <span>Calculate the solubility of BaSO₄ in 0.10 mol dm⁻³ H₂SO₄ solution. K<sub>sp</sub>(BaSO₄) = 1.08 × 10⁻¹⁰ mol² dm⁻⁶.</span>
+          </div>
+          <ul class="step-list">
+            <li class="step">
+              <div class="step-n">1</div>
+              <div class="step-c">Write the equilibrium: \(\text{BaSO}_4(s) \rightleftharpoons \text{Ba}^{2+}(aq) + \text{SO}_4^{2-}(aq)\)<br>K<sub>sp</sub> = [Ba²⁺][SO₄²⁻] = 1.08 × 10⁻¹⁰</div>
+            </li>
+            <li class="step">
+              <div class="step-n">2</div>
+              <div class="step-c">The H₂SO₄ provides [SO₄²⁻] = 0.10 mol dm⁻³ (the common ion). Let solubility of BaSO₄ = s mol dm⁻³.<br>Since s ≪ 0.10, total [SO₄²⁻] ≈ 0.10 mol dm⁻³</div>
+            </li>
+            <li class="step">
+              <div class="step-n">3</div>
+              <div class="step-c">
+                <div class="step-eq">\[ 1.08 \times 10^{-10} = [\text{Ba}^{2+}] \times 0.10 \]</div>
+                <div class="step-eq">\[ [\text{Ba}^{2+}] = s = \frac{1.08 \times 10^{-10}}{0.10} \]</div>
+                <div class="step-ans">s = 1.08 × 10⁻⁹ mol dm⁻³ (compare to 1.04 × 10⁻⁵ mol dm⁻³ in pure water — ~10,000× reduction!)</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <!-- D2 -->
+        <div class="worked" style="margin-top:1rem">
+          <div class="worked-q">
+            <span class="q-lbl">Q2</span>
+            <span>Calculate the solubility of AgCl in 0.050 mol dm⁻³ NaCl solution. K<sub>sp</sub>(AgCl) = 1.77 × 10⁻¹⁰ mol² dm⁻⁶.</span>
+          </div>
+          <ul class="step-list">
+            <li class="step">
+              <div class="step-n">1</div>
+              <div class="step-c">NaCl provides [Cl⁻] = 0.050 mol dm⁻³. Solubility of AgCl = s.<br>Total [Cl⁻] ≈ 0.050 mol dm⁻³ (since s ≪ 0.050)</div>
+            </li>
+            <li class="step">
+              <div class="step-n">2</div>
+              <div class="step-c">
+                <div class="step-eq">\[ s = [\text{Ag}^+] = \frac{K_{sp}}{[\text{Cl}^-]} = \frac{1.77 \times 10^{-10}}{0.050} \]</div>
+                <div class="step-ans">s = 3.54 × 10⁻⁹ mol dm⁻³ (vs 1.33 × 10⁻⁵ mol dm⁻³ in pure water)</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Type E: Selective Precipitation -->
+  <div class="coll" id="calc-5">
+    <div class="coll-hdr" onclick="toggleColl(this)">
+      <div class="coll-num">E</div>
+      <span class="coll-ico">⚗️</span>
+      <span class="coll-title">Type E: Selective Precipitation</span>
+      <span class="coll-hint">Obj 5.4</span>
+      <span class="coll-arr">▼</span>
+    </div>
+    <div class="coll-body">
+      <div class="coll-inner">
+        <!-- E1 -->
+        <div class="worked">
+          <div class="worked-q">
+            <span class="q-lbl">Q1</span>
+            <span>A solution contains [Cl⁻] = 0.10 mol dm⁻³ and [Br⁻] = 0.10 mol dm⁻³. AgNO₃ solution is added dropwise. Which halide precipitates first? K<sub>sp</sub>(AgCl) = 1.77 × 10⁻¹⁰, K<sub>sp</sub>(AgBr) = 5.35 × 10⁻¹³ mol² dm⁻⁶.</span>
+          </div>
+          <ul class="step-list">
+            <li class="step">
+              <div class="step-n">1</div>
+              <div class="step-c">
+                Find [Ag⁺] needed to just begin precipitating each halide:
+                <div class="step-eq">\[ [\text{Ag}^+]_{\text{for AgCl}} = \frac{K_{sp}(\text{AgCl})}{[\text{Cl}^-]} = \frac{1.77 \times 10^{-10}}{0.10} = 1.77 \times 10^{-9} \text{ mol dm}^{-3} \]</div>
+                <div class="step-eq">\[ [\text{Ag}^+]_{\text{for AgBr}} = \frac{K_{sp}(\text{AgBr})}{[\text{Br}^-]} = \frac{5.35 \times 10^{-13}}{0.10} = 5.35 \times 10^{-12} \text{ mol dm}^{-3} \]</div>
+              </div>
+            </li>
+            <li class="step">
+              <div class="step-n">2</div>
+              <div class="step-c">AgBr requires a lower [Ag⁺] to begin precipitation (5.35 × 10⁻¹² &lt; 1.77 × 10⁻⁹).<div class="step-ans">AgBr precipitates first. AgCl remains in solution until [Ag⁺] reaches 1.77 × 10⁻⁹ mol dm⁻³.</div></div>
+            </li>
+            <li class="step">
+              <div class="step-n">3</div>
+              <div class="step-c">
+                When AgCl just begins to precipitate, find remaining [Br⁻]:
+                <div class="step-eq">\[ [\text{Br}^-] = \frac{K_{sp}(\text{AgBr})}{[\text{Ag}^+]} = \frac{5.35 \times 10^{-13}}{1.77 \times 10^{-9}} = 3.02 \times 10^{-4} \text{ mol dm}^{-3} \]</div>
+                <div class="step-ans">97% of Br⁻ has been removed before Cl⁻ begins to precipitate — good separation is possible!</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <!-- E2 -->
+        <div class="worked" style="margin-top:1rem">
+          <div class="worked-q">
+            <span class="q-lbl">Q2</span>
+            <span>A solution contains [Ca²⁺] = 0.050 mol dm⁻³ and [Mg²⁺] = 0.050 mol dm⁻³. NaOH is added. Which hydroxide precipitates first? K<sub>sp</sub>(Ca(OH)₂) = 5.02 × 10⁻⁶, K<sub>sp</sub>(Mg(OH)₂) = 5.61 × 10⁻¹² mol³ dm⁻⁹.</span>
+          </div>
+          <ul class="step-list">
+            <li class="step">
+              <div class="step-n">1</div>
+              <div class="step-c">
+                Find [OH⁻] needed to begin precipitating each:
+                <div class="step-eq">\[ [\text{OH}^-]_{\text{for Ca(OH)}_2} = \sqrt{\frac{K_{sp}}{[\text{Ca}^{2+}]}} = \sqrt{\frac{5.02 \times 10^{-6}}{0.050}} = \sqrt{1.004 \times 10^{-4}} = 1.00 \times 10^{-2} \text{ mol dm}^{-3} \]</div>
+                <div class="step-eq">\[ [\text{OH}^-]_{\text{for Mg(OH)}_2} = \sqrt{\frac{5.61 \times 10^{-12}}{0.050}} = \sqrt{1.12 \times 10^{-10}} = 1.06 \times 10^{-5} \text{ mol dm}^{-3} \]</div>
+              </div>
+            </li>
+            <li class="step">
+              <div class="step-n">2</div>
+              <div class="step-c">Mg(OH)₂ requires less OH⁻ to precipitate.<div class="step-ans">Mg(OH)₂ precipitates first. This allows separation of Mg²⁺ from Ca²⁺ by careful pH control.</div></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Calculator -->
+  <div class="card mt2">
+    <div class="card-title"><span class="cico">✏️</span> Custom Problem Solver</div>
+    <p class="note-p" style="margin-bottom:1rem">Enter your own K<sub>sp</sub> problem and get a step-by-step solution. See the <strong>K<sub>sp</sub> Solver</strong> tab for the full dynamic calculator.</p>
+    <div class="frm-group">
+      <label class="frm-label">Problem Type</label>
+      <select class="frm-select" id="cust-type">
+        <option value="ksp-from-s">Calculate K<sub>sp</sub> from solubility (s)</option>
+        <option value="s-from-ksp">Calculate solubility (s) from K<sub>sp</sub></option>
+        <option value="q-predict">Predict precipitation (Q vs K<sub>sp</sub>)</option>
+        <option value="common-ion">Common ion effect — solubility with common ion</option>
+      </select>
+    </div>
+    <div id="cust-form-area"></div>
+    <div id="cust-result" class="result-box" style="display:none"></div>
+  </div>
+
+</section>
+
+<!-- ═══════════════ KSP SOLVER ═══════════════ -->
+<section class="tpanel" id="tab-calculator">
+  <div class="pg-head">
+    <div class="pg-title"><span class="pg-ico">⚗️</span> Dynamic K<sub>sp</sub> Solver</div>
+    <div class="pg-sub">Enter known values and calculate any unknown — fully step-by-step</div>
+  </div>
+
+  <div class="card">
+    <div class="calc-mode-wrap">
+      <button class="mode-btn active" data-mode="ksp">Ion Concentrations → K<sub>sp</sub></button>
+      <button class="mode-btn" data-mode="solubility">K<sub>sp</sub> → Solubility &amp; Ion Concentrations</button>
+      <button class="mode-btn" data-mode="predict">Predict Precipitation (Q vs K<sub>sp</sub>)</button>
+      <button class="mode-btn" data-mode="common">Common Ion Solubility</button>
+      <button class="mode-btn" data-mode="minconc">Minimum [Ion] to Precipitate</button>
+    </div>
+
+    <!-- Mode: Ksp from ions -->
+    <div class="calc-panel active" id="mode-ksp">
+      <div class="card-title" style="font-size:1rem">Calculate K<sub>sp</sub> from Ion Concentrations</div>
+      <div class="frm-group">
+        <label class="frm-label">Dissolution Equation Type</label>
+        <select class="frm-select" id="ksp-type">
+          <option value="11">AB → A⁺ + B⁻ (e.g. AgCl)</option>
+          <option value="12">AB₂ → A²⁺ + 2B⁻ (e.g. PbI₂)</option>
+          <option value="21">A₂B → 2A⁺ + B²⁻ (e.g. Ag₂SO₄)</option>
+          <option value="13">AB₃ → A³⁺ + 3B⁻ (e.g. AlF₃)</option>
+          <option value="23">A₂B₃ → 2A³⁺ + 3B²⁻ (e.g. Al₂O₃)</option>
+          <option value="32">A₃B₂ → 3A²⁺ + 2B³⁻ (e.g. Ca₃(PO₄)₂)</option>
+          <option value="custom">Custom (specify m and n)</option>
+        </select>
+      </div>
+      <div id="ksp-custom-row" style="display:none" class="row-2">
+        <div class="frm-group">
+          <label class="frm-label">m (cation coefficient)</label>
+          <input type="number" class="frm-input" id="ksp-m" value="1" min="1" max="5">
+        </div>
+        <div class="frm-group">
+          <label class="frm-label">n (anion coefficient)</label>
+          <input type="number" class="frm-input" id="ksp-n" value="1" min="1" max="5">
+        </div>
+      </div>
+      <div class="frm-group">
+        <label class="frm-label">Salt / Formula (optional label)</label>
+        <input type="text" class="frm-input" id="ksp-salt" placeholder="e.g. PbI₂">
+      </div>
+      <div class="row-2">
+        <div class="frm-group">
+          <label class="frm-label" id="ksp-cat-lbl">Cation concentration (mol dm⁻³)</label>
+          <input type="number" class="frm-input" id="ksp-cat" placeholder="e.g. 1.65e-3" step="any">
+          <div class="frm-hint">Use scientific notation: e.g. 1.65e-3 = 1.65 × 10⁻³</div>
+        </div>
+        <div class="frm-group">
+          <label class="frm-label" id="ksp-an-lbl">Anion concentration (mol dm⁻³)</label>
+          <input type="number" class="frm-input" id="ksp-an" placeholder="e.g. 3.30e-3" step="any">
+        </div>
+      </div>
+      <div class="flex-end">
+        <button class="btn" onclick="calcKsp()">Calculate K<sub>sp</sub></button>
+        <button class="btn sec" onclick="clearKsp()">Clear</button>
+      </div>
+      <div id="ksp-result" style="display:none" class="result-box success mt"></div>
+    </div>
+
+    <!-- Mode: Solubility from Ksp -->
+    <div class="calc-panel" id="mode-solubility">
+      <div class="card-title" style="font-size:1rem">Calculate Solubility from K<sub>sp</sub></div>
+      <div class="frm-group">
+        <label class="frm-label">Salt Formula (for display)</label>
+        <input type="text" class="frm-input" id="sol-salt" placeholder="e.g. Mg(OH)₂">
+      </div>
+      <div class="frm-group">
+        <label class="frm-label">Dissolution Type</label>
+        <select class="frm-select" id="sol-type">
+          <option value="11">AB type: s² = K<sub>sp</sub></option>
+          <option value="12">AB₂ type: 4s³ = K<sub>sp</sub></option>
+          <option value="21">A₂B type: 4s³ = K<sub>sp</sub></option>
+          <option value="13">AB₃ type: 27s⁴ = K<sub>sp</sub></option>
+          <option value="23">A₂B₃ type: 108s⁵ = K<sub>sp</sub></option>
+          <option value="32">A₃B₂ type: 108s⁵ = K<sub>sp</sub></option>
+        </select>
+      </div>
+      <div class="frm-group">
+        <label class="frm-label">K<sub>sp</sub> value</label>
+        <input type="number" class="frm-input" id="sol-ksp" placeholder="e.g. 5.61e-12" step="any">
+      </div>
+      <div class="frm-group">
+        <label class="frm-label">Molar Mass (g mol⁻¹) — optional for g/dm³ conversion</label>
+        <input type="number" class="frm-input" id="sol-mr" placeholder="e.g. 58.32" step="any">
+      </div>
+      <div class="flex-end">
+        <button class="btn" onclick="calcSolubility()">Calculate Solubility</button>
+        <button class="btn sec" onclick="clearSol()">Clear</button>
+      </div>
+      <div id="sol-result" style="display:none" class="result-box success mt"></div>
+    </div>
+
+    <!-- Mode: Predict Precipitation -->
+    <div class="calc-panel" id="mode-predict">
+      <div class="card-title" style="font-size:1rem">Predict Precipitation — Q vs K<sub>sp</sub></div>
+      <div class="frm-group">
+        <label class="frm-label">Salt / Formula (optional)</label>
+        <input type="text" class="frm-input" id="pred-salt" placeholder="e.g. BaSO₄">
+      </div>
+      <div class="frm-group">
+        <label class="frm-label">Dissolution Type</label>
+        <select class="frm-select" id="pred-type">
+          <option value="11">AB → A⁺ + B⁻</option>
+          <option value="12">AB₂ → A²⁺ + 2B⁻</option>
+          <option value="21">A₂B → 2A⁺ + B²⁻</option>
+          <option value="13">AB₃ → A³⁺ + 3B⁻</option>
+        </select>
+      </div>
+      <div class="row-2">
+        <div class="frm-group">
+          <label class="frm-label">Cation concentration after mixing (mol dm⁻³)</label>
+          <input type="number" class="frm-input" id="pred-cat" placeholder="e.g. 3.00e-5" step="any">
+          <div class="frm-hint">Enter concentration after mixing (already diluted)</div>
+        </div>
+        <div class="frm-group">
+          <label class="frm-label">Anion concentration after mixing (mol dm⁻³)</label>
+          <input type="number" class="frm-input" id="pred-an" placeholder="e.g. 6.00e-6" step="any">
+        </div>
+      </div>
+      <div class="frm-group">
+        <label class="frm-label">K<sub>sp</sub> of the salt</label>
+        <input type="number" class="frm-input" id="pred-ksp" placeholder="e.g. 1.08e-10" step="any">
+      </div>
+      <div class="frm-group">
+        <label class="frm-label">Mixing mode</label>
+        <select class="frm-select" id="pred-mix">
+          <option value="already">Concentrations already adjusted for mixing</option>
+          <option value="equal">Equal volumes mixed (will halve concentrations)</option>
+        </select>
+      </div>
+      <div class="flex-end">
+        <button class="btn" onclick="calcPredict()">Predict</button>
+        <button class="btn sec" onclick="clearPredict()">Clear</button>
+      </div>
+      <div id="pred-result" style="display:none" class="result-box mt"></div>
+    </div>
+
+    <!-- Mode: Common Ion -->
+    <div class="calc-panel" id="mode-common">
+      <div class="card-title" style="font-size:1rem">Common Ion Effect — Solubility Calculator</div>
+      <div class="frm-group">
+        <label class="frm-label">Salt / Formula</label>
+        <input type="text" class="frm-input" id="ci-salt" placeholder="e.g. BaSO₄">
+      </div>
+      <div class="frm-group">
+        <label class="frm-label">Dissolution Type</label>
+        <select class="frm-select" id="ci-type">
+          <option value="11">AB type (1:1)</option>
+          <option value="12">AB₂ type (1:2)</option>
+          <option value="21">A₂B type (2:1)</option>
+        </select>
+      </div>
+      <div class="frm-group">
+        <label class="frm-label">K<sub>sp</sub> of the salt</label>
+        <input type="number" class="frm-input" id="ci-ksp" placeholder="e.g. 1.08e-10" step="any">
+      </div>
+      <div class="frm-group">
+        <label class="frm-label">Common ion is the…</label>
+        <select class="frm-select" id="ci-which">
+          <option value="anion">Anion (e.g. adding SO₄²⁻ to BaSO₄ system)</option>
+          <option value="cation">Cation (e.g. adding Ba²⁺ to BaSO₄ system)</option>
+        </select>
+      </div>
+      <div class="frm-group">
+        <label class="frm-label">Concentration of common ion (mol dm⁻³)</label>
+        <input type="number" class="frm-input" id="ci-conc" placeholder="e.g. 0.10" step="any">
+      </div>
+      <div class="flex-end">
+        <button class="btn" onclick="calcCommonIon()">Calculate</button>
+        <button class="btn sec" onclick="clearCI()">Clear</button>
+      </div>
+      <div id="ci-result" style="display:none" class="result-box success mt"></div>
+    </div>
+
+    <!-- Mode: Minimum concentration -->
+    <div class="calc-panel" id="mode-minconc">
+      <div class="card-title" style="font-size:1rem">Minimum Ion Concentration to Begin Precipitation</div>
+      <div class="frm-group">
+        <label class="frm-label">Salt / Formula</label>
+        <input type="text" class="frm-input" id="mc-salt" placeholder="e.g. AgCl">
+      </div>
+      <div class="frm-group">
+        <label class="frm-label">Dissolution Type</label>
+        <select class="frm-select" id="mc-type">
+          <option value="11">AB type</option>
+          <option value="12">AB₂ type</option>
+          <option value="21">A₂B type</option>
+        </select>
+      </div>
+      <div class="frm-group">
+        <label class="frm-label">K<sub>sp</sub> of the salt</label>
+        <input type="number" class="frm-input" id="mc-ksp" placeholder="e.g. 1.77e-10" step="any">
+      </div>
+      <div class="frm-group">
+        <label class="frm-label">Find minimum concentration of…</label>
+        <select class="frm-select" id="mc-which">
+          <option value="cation">Cation — given [anion]</option>
+          <option value="anion">Anion — given [cation]</option>
+        </select>
+      </div>
+      <div class="frm-group">
+        <label class="frm-label" id="mc-known-lbl">Known ion concentration (mol dm⁻³)</label>
+        <input type="number" class="frm-input" id="mc-known" placeholder="e.g. 1.0e-4" step="any">
+      </div>
+      <div class="flex-end">
+        <button class="btn" onclick="calcMinConc()">Calculate</button>
+        <button class="btn sec" onclick="clearMC()">Clear</button>
+      </div>
+      <div id="mc-result" style="display:none" class="result-box success mt"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ LIBRARY ═══════════════ -->
+<section class="tpanel" id="tab-library">
+  <div class="pg-head">
+    <div class="pg-title"><span class="pg-ico">🗂️</span> K<sub>sp</sub> Library</div>
+    <div class="pg-sub">Accurate solubility product constants at 25°C (298 K) — sourced from IUPAC and peer-reviewed thermodynamic data</div>
+  </div>
+  <div class="card">
+    <div class="lib-toolbar">
+      <div class="search-wrap">
+        <span class="s-ico">🔍</span>
+        <input type="text" id="lib-search" placeholder="Search compound name or formula…" oninput="filterLib()">
+      </div>
+      <div class="filter-btns" id="cat-filters">
+        <button class="fbtn active" data-cat="all" onclick="setLibCat(this,'all')">All</button>
+        <button class="fbtn" data-cat="Silver" onclick="setLibCat(this,'Silver')">Silver</button>
+        <button class="fbtn" data-cat="Barium" onclick="setLibCat(this,'Barium')">Barium</button>
+        <button class="fbtn" data-cat="Calcium" onclick="setLibCat(this,'Calcium')">Calcium</button>
+        <button class="fbtn" data-cat="Lead" onclick="setLibCat(this,'Lead')">Lead</button>
+        <button class="fbtn" data-cat="Iron" onclick="setLibCat(this,'Iron')">Iron</button>
+        <button class="fbtn" data-cat="Copper" onclick="setLibCat(this,'Copper')">Copper</button>
+        <button class="fbtn" data-cat="Mercury" onclick="setLibCat(this,'Mercury')">Mercury</button>
+        <button class="fbtn" data-cat="Other" onclick="setLibCat(this,'Other')">Other</button>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table id="lib-table">
+        <thead>
+          <tr>
+            <th onclick="sortLib('name')">Compound ↕</th>
+            <th onclick="sortLib('formula')">Formula ↕</th>
+            <th onclick="sortLib('ksp')">K<sub>sp</sub> (25°C) ↕</th>
+            <th onclick="sortLib('pksp')">pK<sub>sp</sub> ↕</th>
+            <th>Solubility Class</th>
+            <th>Expression</th>
+          </tr>
+        </thead>
+        <tbody id="lib-tbody"></tbody>
+      </table>
+    </div>
+    <div class="lib-stats" id="lib-stats">Loading…</div>
+  </div>
+</section>
+
+<!-- ═══════════════ SIMULATOR ═══════════════ -->
+<section class="tpanel" id="tab-simulator">
+  <div class="pg-head">
+    <div class="pg-title"><span class="pg-ico">🔬</span> Interactive Simulator</div>
+    <div class="pg-sub">Visual demonstrations of K<sub>sp</sub> concepts — common ion effect and selective precipitation</div>
+  </div>
+  <div class="sim-tabs">
+    <button class="stab active" data-sim="common">Common Ion Effect</button>
+    <button class="stab" data-sim="precip">Selective Precipitation</button>
+    <button class="stab" data-sim="q-meter">Ionic Product Monitor</button>
+  </div>
+
+  <!-- Sim 1: Common Ion -->
+  <div class="sim-panel active" id="sim-common">
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title" style="font-size:1rem"><span class="cico">🎛️</span> Controls</div>
+        <div class="frm-group">
+          <label class="frm-label">Select Salt</label>
+          <select class="frm-select" id="sim-salt" onchange="updateSimSalt()">
+            <option value="BaSO4">Barium Sulphate — BaSO₄</option>
+            <option value="AgCl">Silver Chloride — AgCl</option>
+            <option value="CaF2">Calcium Fluoride — CaF₂</option>
+            <option value="PbI2">Lead(II) Iodide — PbI₂</option>
+            <option value="MgOH2">Magnesium Hydroxide — Mg(OH)₂</option>
+          </select>
+        </div>
+        <div class="slider-row">
+          <span class="slider-label">Common ion conc.</span>
+          <input type="range" id="ci-slider" min="0" max="100" value="0" oninput="updateCISlider()">
+          <span class="slider-val" id="ci-slider-val">0 mol dm⁻³</span>
+        </div>
+        <div class="slider-row">
+          <span class="slider-label">Temperature</span>
+          <input type="range" id="temp-slider" min="5" max="60" value="25" oninput="updateTempSlider()">
+          <span class="slider-val" id="temp-val">25°C</span>
+        </div>
+        <div class="divider"></div>
+        <div id="sim-info" class="card" style="background:var(--surf2);padding:.85rem"></div>
+        <div class="flex-end" style="margin-top:.75rem">
+          <button class="btn" onclick="animateCommonIon()">▶ Animate</button>
+          <button class="btn sec" onclick="resetSim()">⟳ Reset</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="font-size:1rem"><span class="cico">📊</span> Solubility vs [Common Ion]</div>
+        <canvas id="ci-canvas" width="440" height="280"></canvas>
+        <div style="margin-top:.75rem;font-size:.78rem;color:var(--txt-s);text-align:center">
+          Solubility decreases as common ion concentration increases (Le Chatelier's Principle)
+        </div>
+      </div>
+    </div>
+    <div class="card mt">
+      <div class="card-title" style="font-size:1rem"><span class="cico">⚗️</span> Molecular Animation</div>
+      <canvas id="mol-canvas" width="840" height="200" style="width:100%;max-width:840px"></canvas>
+      <div style="display:flex;gap:1.5rem;margin-top:.6rem;flex-wrap:wrap;font-size:.78rem;color:var(--txt-s)">
+        <span>🔵 Cation</span><span>🟠 Anion</span><span>⬜ Common Ion</span><span>🟫 Precipitate</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sim 2: Selective Precipitation -->
+  <div class="sim-panel" id="sim-precip">
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title" style="font-size:1rem"><span class="cico">🎛️</span> Setup</div>
+        <p class="note-p" style="font-size:.87rem;margin-bottom:.85rem">Simulate the addition of a precipitating agent to a mixed solution. Watch which ion precipitates first.</p>
+        <div class="frm-group">
+          <label class="frm-label">System</label>
+          <select class="frm-select" id="sp-system" onchange="updateSPSystem()">
+            <option value="halides">AgNO₃ added to Cl⁻/Br⁻/I⁻ mixture</option>
+            <option value="sulfate">BaCl₂ added to SO₄²⁻/CrO₄²⁻ mixture</option>
+            <option value="hydroxide">NaOH added to Ca²⁺/Mg²⁺/Fe²⁺ mixture</option>
+          </select>
+        </div>
+        <div class="slider-row">
+          <span class="slider-label">Initial ion conc.</span>
+          <input type="range" id="sp-conc-slider" min="1" max="100" value="50" oninput="updateSPSlider()">
+          <span class="slider-val" id="sp-conc-val">0.050 mol dm⁻³</span>
+        </div>
+        <div class="slider-row">
+          <span class="slider-label">Reagent added</span>
+          <input type="range" id="sp-reagent-slider" min="0" max="200" value="0" oninput="updateSPReagent()">
+          <span class="slider-val" id="sp-reagent-val">0 mol dm⁻³</span>
+        </div>
+        <div class="flex-end" style="margin-top:.75rem">
+          <button class="btn" onclick="animateSP()">▶ Add Reagent</button>
+          <button class="btn sec" onclick="resetSP()">⟳ Reset</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="font-size:1rem"><span class="cico">📊</span> Ion Concentrations vs Reagent Added</div>
+        <canvas id="sp-canvas" width="440" height="280"></canvas>
+      </div>
+    </div>
+    <div class="card mt">
+      <div class="card-title" style="font-size:1rem"><span class="cico">📋</span> Precipitation Status</div>
+      <div id="sp-status-grid" class="grid-3" style="margin-top:.5rem"></div>
+    </div>
+  </div>
+
+  <!-- Sim 3: Q meter -->
+  <div class="sim-panel" id="sim-q-meter">
+    <div class="card">
+      <div class="card-title"><span class="cico">🌡️</span> Ionic Product Monitor</div>
+      <p class="note-p" style="font-size:.87rem;margin-bottom:1rem">Adjust ion concentrations to see where Q sits relative to K<sub>sp</sub>. The gauge shows the system status in real time.</p>
+      <div class="grid-2">
+        <div>
+          <div class="frm-group">
+            <label class="frm-label">Select Salt</label>
+            <select class="frm-select" id="qm-salt" onchange="updateQM()">
+              <option value="AgCl">AgCl (K<sub>sp</sub> = 1.77 × 10⁻¹⁰)</option>
+              <option value="BaSO4">BaSO₄ (K<sub>sp</sub> = 1.08 × 10⁻¹⁰)</option>
+              <option value="CaF2">CaF₂ (K<sub>sp</sub> = 3.45 × 10⁻¹¹)</option>
+              <option value="PbSO4">PbSO₄ (K<sub>sp</sub> = 2.53 × 10⁻⁸)</option>
+              <option value="MgOH2">Mg(OH)₂ (K<sub>sp</sub> = 5.61 × 10⁻¹²)</option>
+            </select>
+          </div>
+          <div class="slider-row">
+            <span class="slider-label" id="qm-cat-lbl">log[Ag⁺]</span>
+            <input type="range" id="qm-cat-sl" min="-14" max="-1" value="-7" step="0.1" oninput="updateQM()">
+            <span class="slider-val" id="qm-cat-val">10⁻⁷</span>
+          </div>
+          <div class="slider-row">
+            <span class="slider-label" id="qm-an-lbl">log[Cl⁻]</span>
+            <input type="range" id="qm-an-sl" min="-14" max="-1" value="-7" step="0.1" oninput="updateQM()">
+            <span class="slider-val" id="qm-an-val">10⁻⁷</span>
+          </div>
+          <div class="card" style="background:var(--surf2);margin-top:.75rem;padding:1rem">
+            <div class="result-row"><span class="result-key">Q (ionic product)</span><span class="result-val" id="qm-q-val">—</span></div>
+            <div class="result-row"><span class="result-key">K<sub>sp</sub></span><span class="result-val" id="qm-ksp-val">—</span></div>
+            <div class="result-row"><span class="result-key">Q / K<sub>sp</sub></span><span class="result-val" id="qm-ratio">—</span></div>
+            <div style="margin-top:.5rem;font-size:1rem;font-weight:700;text-align:center" id="qm-verdict">—</div>
+          </div>
+        </div>
+        <div>
+          <canvas id="qm-canvas" width="360" height="360"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SETTINGS ═══════════════ -->
+<section class="tpanel" id="tab-settings">
+  <div class="pg-head">
+    <div class="pg-title"><span class="pg-ico">⚙️</span> Settings</div>
+    <div class="pg-sub">Customise your K<sub>sp</sub> Explorer experience</div>
+  </div>
+
+  <div class="settings-grid">
+    <!-- Display -->
+    <div class="stg-section">
+      <div class="stg-hdr"><span>🎨</span> Display & Appearance</div>
+      <div class="stg-row">
+        <div class="stg-info">
+          <div class="stg-name">Theme</div>
+          <div class="stg-desc">Switch between dark and light display modes</div>
+        </div>
+        <select class="stg-select" id="stg-theme" onchange="setTheme(this.value)">
+          <option value="dark">Dark (Default)</option>
+          <option value="light">Light</option>
+        </select>
+      </div>
+      <div class="stg-row">
+        <div class="stg-info">
+          <div class="stg-name">Font Size</div>
+          <div class="stg-desc">Adjust the base font size across the application</div>
+        </div>
+        <select class="stg-select" id="stg-fs" onchange="setFSFromSettings(this.value)">
+          <option value="13">Small (13px)</option>
+          <option value="14">Medium-Small (14px)</option>
+          <option value="15">Medium (15px)</option>
+          <option value="16" selected>Default (16px)</option>
+          <option value="17">Medium-Large (17px)</option>
+          <option value="18">Large (18px)</option>
+          <option value="20">Extra Large (20px)</option>
+        </select>
+      </div>
+      <div class="stg-row">
+        <div class="stg-info">
+          <div class="stg-name">Compact Mode</div>
+          <div class="stg-desc">Reduce padding and spacing for smaller screens</div>
+        </div>
+        <label class="toggle"><input type="checkbox" id="stg-compact" onchange="applyCompact()"><span class="toggle-slider"></span></label>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="stg-section">
+      <div class="stg-hdr"><span>📚</span> Notes Behaviour</div>
+      <div class="stg-row">
+        <div class="stg-info">
+          <div class="stg-name">Auto-open First Section</div>
+          <div class="stg-desc">Automatically expand the first collapsible when opening Notes</div>
+        </div>
+        <label class="toggle"><input type="checkbox" id="stg-auto-open" checked onchange="saveSettings()"><span class="toggle-slider"></span></label>
+      </div>
+      <div class="stg-row">
+        <div class="stg-info">
+          <div class="stg-name">Scroll to Section on Open</div>
+          <div class="stg-desc">Scroll the page to bring an expanded section into view</div>
+        </div>
+        <label class="toggle"><input type="checkbox" id="stg-scroll-open" checked onchange="saveSettings()"><span class="toggle-slider"></span></label>
+      </div>
+      <div class="stg-row">
+        <div class="stg-info">
+          <div class="stg-name">Show Objective Tags</div>
+          <div class="stg-desc">Show the CAPE objective tag (e.g. "Obj 5.1") on each section</div>
+        </div>
+        <label class="toggle"><input type="checkbox" id="stg-obj-tags" checked onchange="saveSettings()"><span class="toggle-slider"></span></label>
+      </div>
+    </div>
+
+    <!-- Calculator -->
+    <div class="stg-section">
+      <div class="stg-hdr"><span>⚗️</span> Calculator Settings</div>
+      <div class="stg-row">
+        <div class="stg-info">
+          <div class="stg-name">Significant Figures</div>
+          <div class="stg-desc">Number of significant figures for calculator results</div>
+        </div>
+        <select class="stg-select" id="stg-sf" onchange="saveSettings()">
+          <option value="2">2 sig. figs.</option>
+          <option value="3" selected>3 sig. figs.</option>
+          <option value="4">4 sig. figs.</option>
+          <option value="5">5 sig. figs.</option>
+        </select>
+      </div>
+      <div class="stg-row">
+        <div class="stg-info">
+          <div class="stg-name">Show Step-by-Step Working</div>
+          <div class="stg-desc">Display full working when results are calculated</div>
+        </div>
+        <label class="toggle"><input type="checkbox" id="stg-steps" checked onchange="saveSettings()"><span class="toggle-slider"></span></label>
+      </div>
+      <div class="stg-row">
+        <div class="stg-info">
+          <div class="stg-name">Include Units in Results</div>
+          <div class="stg-desc">Show mol dm⁻³ and compound units alongside values</div>
+        </div>
+        <label class="toggle"><input type="checkbox" id="stg-units" checked onchange="saveSettings()"><span class="toggle-slider"></span></label>
+      </div>
+    </div>
+
+    <!-- Library -->
+    <div class="stg-section">
+      <div class="stg-hdr"><span>🗂️</span> Library Settings</div>
+      <div class="stg-row">
+        <div class="stg-info">
+          <div class="stg-name">Default Sort</div>
+          <div class="stg-desc">How the K<sub>sp</sub> library is sorted by default</div>
+        </div>
+        <select class="stg-select" id="stg-lib-sort" onchange="saveSettings()">
+          <option value="name">Name (A–Z)</option>
+          <option value="ksp">K<sub>sp</sub> (smallest first)</option>
+          <option value="pksp">pK<sub>sp</sub> (largest first)</option>
+        </select>
+      </div>
+      <div class="stg-row">
+        <div class="stg-info">
+          <div class="stg-name">Show pK<sub>sp</sub> Column</div>
+          <div class="stg-desc">Display pK<sub>sp</sub> = −log(K<sub>sp</sub>) values in the library table</div>
+        </div>
+        <label class="toggle"><input type="checkbox" id="stg-pksp" checked onchange="saveSettings()"><span class="toggle-slider"></span></label>
+      </div>
+    </div>
+
+    <!-- About -->
+    <div class="about-card">
+      <div class="about-badge">K<sub>sp</sub></div>
+      <div class="about-title">K<sub>sp</sub> Explorer</div>
+      <div class="about-sub">CAPE Chemistry Unit 1 — Module 2: Kinetics and Equilibria</div>
+      <div class="about-sub">Specific Objectives 5.1 – 5.4 · Solubility Product</div>
+      <div class="about-tags">
+        <span class="chip">Objectives 5.1–5.4</span>
+        <span class="chip blue">100+ Ksp Values</span>
+        <span class="chip gold">Interactive Simulator</span>
+        <span class="chip">Step-by-Step Solver</span>
+      </div>
+      <p class="txt-s" style="margin-top:.85rem;font-size:.77rem">
+        K<sub>sp</sub> values sourced from IUPAC Solubility Data Series, NIST Thermochemical Tables, and peer-reviewed literature. Temperature: 25°C (298 K) unless stated.
+      </p>
+      <button class="btn sec" style="margin-top:.85rem;font-size:.8rem" onclick="resetAllSettings()">⟳ Reset All Settings</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+// ══════════════════════════════════════════
+//  DATA — Accurate Ksp values at 25°C
+//  Sources: IUPAC Solubility Data Series, 
+//  Saylor textbook, NIST, peer-reviewed lit.
+// ══════════════════════════════════════════
+const KSP_DATA = [
+  // Silver
+  {name:"Silver bromide",formula:"AgBr",ksp:5.35e-13,cat:"Silver",expr:"[Ag⁺][Br⁻]",m:1,n:1},
+  {name:"Silver chloride",formula:"AgCl",ksp:1.77e-10,cat:"Silver",expr:"[Ag⁺][Cl⁻]",m:1,n:1},
+  {name:"Silver chromate",formula:"Ag₂CrO₄",ksp:1.12e-12,cat:"Silver",expr:"[Ag⁺]²[CrO₄²⁻]",m:2,n:1},
+  {name:"Silver carbonate",formula:"Ag₂CO₃",ksp:8.46e-12,cat:"Silver",expr:"[Ag⁺]²[CO₃²⁻]",m:2,n:1},
+  {name:"Silver iodide",formula:"AgI",ksp:8.52e-17,cat:"Silver",expr:"[Ag⁺][I⁻]",m:1,n:1},
+  {name:"Silver phosphate",formula:"Ag₃PO₄",ksp:8.89e-17,cat:"Silver",expr:"[Ag⁺]³[PO₄³⁻]",m:3,n:1},
+  {name:"Silver sulphate",formula:"Ag₂SO₄",ksp:1.20e-5,cat:"Silver",expr:"[Ag⁺]²[SO₄²⁻]",m:2,n:1},
+  {name:"Silver oxalate",formula:"Ag₂C₂O₄",ksp:5.40e-12,cat:"Silver",expr:"[Ag⁺]²[C₂O₄²⁻]",m:2,n:1},
+  {name:"Silver acetate",formula:"AgCH₃CO₂",ksp:1.94e-3,cat:"Silver",expr:"[Ag⁺][CH₃CO₂⁻]",m:1,n:1},
+  {name:"Silver thiocyanate",formula:"AgSCN",ksp:1.03e-12,cat:"Silver",expr:"[Ag⁺][SCN⁻]",m:1,n:1},
+  // Barium
+  {name:"Barium carbonate",formula:"BaCO₃",ksp:2.58e-9,cat:"Barium",expr:"[Ba²⁺][CO₃²⁻]",m:1,n:1},
+  {name:"Barium chromate",formula:"BaCrO₄",ksp:1.17e-10,cat:"Barium",expr:"[Ba²⁺][CrO₄²⁻]",m:1,n:1},
+  {name:"Barium fluoride",formula:"BaF₂",ksp:1.84e-7,cat:"Barium",expr:"[Ba²⁺][F⁻]²",m:1,n:2},
+  {name:"Barium sulphate",formula:"BaSO₄",ksp:1.08e-10,cat:"Barium",expr:"[Ba²⁺][SO₄²⁻]",m:1,n:1},
+  {name:"Barium sulphite",formula:"BaSO₃",ksp:5.0e-10,cat:"Barium",expr:"[Ba²⁺][SO₃²⁻]",m:1,n:1},
+  {name:"Barium iodate",formula:"Ba(IO₃)₂",ksp:4.01e-9,cat:"Barium",expr:"[Ba²⁺][IO₃⁻]²",m:1,n:2},
+  {name:"Barium oxalate",formula:"BaC₂O₄",ksp:2.43e-8,cat:"Barium",expr:"[Ba²⁺][C₂O₄²⁻]",m:1,n:1},
+  // Calcium
+  {name:"Calcium carbonate (calcite)",formula:"CaCO₃",ksp:3.36e-9,cat:"Calcium",expr:"[Ca²⁺][CO₃²⁻]",m:1,n:1},
+  {name:"Calcium fluoride",formula:"CaF₂",ksp:3.45e-11,cat:"Calcium",expr:"[Ca²⁺][F⁻]²",m:1,n:2},
+  {name:"Calcium hydroxide",formula:"Ca(OH)₂",ksp:5.02e-6,cat:"Calcium",expr:"[Ca²⁺][OH⁻]²",m:1,n:2},
+  {name:"Calcium iodate",formula:"Ca(IO₃)₂",ksp:6.47e-6,cat:"Calcium",expr:"[Ca²⁺][IO₃⁻]²",m:1,n:2},
+  {name:"Calcium oxalate",formula:"CaC₂O₄",ksp:2.32e-9,cat:"Calcium",expr:"[Ca²⁺][C₂O₄²⁻]",m:1,n:1},
+  {name:"Calcium phosphate",formula:"Ca₃(PO₄)₂",ksp:2.07e-33,cat:"Calcium",expr:"[Ca²⁺]³[PO₄³⁻]²",m:3,n:2},
+  {name:"Calcium sulphate",formula:"CaSO₄",ksp:4.93e-5,cat:"Calcium",expr:"[Ca²⁺][SO₄²⁻]",m:1,n:1},
+  // Lead
+  {name:"Lead(II) bromide",formula:"PbBr₂",ksp:6.60e-6,cat:"Lead",expr:"[Pb²⁺][Br⁻]²",m:1,n:2},
+  {name:"Lead(II) carbonate",formula:"PbCO₃",ksp:7.40e-14,cat:"Lead",expr:"[Pb²⁺][CO₃²⁻]",m:1,n:1},
+  {name:"Lead(II) chloride",formula:"PbCl₂",ksp:1.70e-5,cat:"Lead",expr:"[Pb²⁺][Cl⁻]²",m:1,n:2},
+  {name:"Lead(II) fluoride",formula:"PbF₂",ksp:3.3e-8,cat:"Lead",expr:"[Pb²⁺][F⁻]²",m:1,n:2},
+  {name:"Lead(II) hydroxide",formula:"Pb(OH)₂",ksp:1.43e-20,cat:"Lead",expr:"[Pb²⁺][OH⁻]²",m:1,n:2},
+  {name:"Lead(II) iodide",formula:"PbI₂",ksp:9.8e-9,cat:"Lead",expr:"[Pb²⁺][I⁻]²",m:1,n:2},
+  {name:"Lead(II) sulphate",formula:"PbSO₄",ksp:2.53e-8,cat:"Lead",expr:"[Pb²⁺][SO₄²⁻]",m:1,n:1},
+  {name:"Lead(II) sulphide",formula:"PbS",ksp:8.0e-28,cat:"Lead",expr:"[Pb²⁺][S²⁻]",m:1,n:1},
+  // Iron
+  {name:"Iron(II) carbonate",formula:"FeCO₃",ksp:3.13e-11,cat:"Iron",expr:"[Fe²⁺][CO₃²⁻]",m:1,n:1},
+  {name:"Iron(II) hydroxide",formula:"Fe(OH)₂",ksp:4.87e-17,cat:"Iron",expr:"[Fe²⁺][OH⁻]²",m:1,n:2},
+  {name:"Iron(III) hydroxide",formula:"Fe(OH)₃",ksp:2.79e-39,cat:"Iron",expr:"[Fe³⁺][OH⁻]³",m:1,n:3},
+  {name:"Iron(II) sulphide",formula:"FeS",ksp:6.3e-18,cat:"Iron",expr:"[Fe²⁺][S²⁻]",m:1,n:1},
+  // Copper
+  {name:"Copper(I) bromide",formula:"CuBr",ksp:6.27e-9,cat:"Copper",expr:"[Cu⁺][Br⁻]",m:1,n:1},
+  {name:"Copper(I) chloride",formula:"CuCl",ksp:1.72e-7,cat:"Copper",expr:"[Cu⁺][Cl⁻]",m:1,n:1},
+  {name:"Copper(I) iodide",formula:"CuI",ksp:1.27e-12,cat:"Copper",expr:"[Cu⁺][I⁻]",m:1,n:1},
+  {name:"Copper(II) hydroxide",formula:"Cu(OH)₂",ksp:2.19e-19,cat:"Copper",expr:"[Cu²⁺][OH⁻]²",m:1,n:2},
+  {name:"Copper(II) sulphide",formula:"CuS",ksp:6.3e-36,cat:"Copper",expr:"[Cu²⁺][S²⁻]",m:1,n:1},
+  {name:"Copper(II) oxalate",formula:"CuC₂O₄",ksp:4.43e-10,cat:"Copper",expr:"[Cu²⁺][C₂O₄²⁻]",m:1,n:1},
+  // Mercury
+  {name:"Mercury(I) bromide",formula:"Hg₂Br₂",ksp:6.40e-23,cat:"Mercury",expr:"[Hg₂²⁺][Br⁻]²",m:1,n:2},
+  {name:"Mercury(I) chloride",formula:"Hg₂Cl₂",ksp:1.43e-18,cat:"Mercury",expr:"[Hg₂²⁺][Cl⁻]²",m:1,n:2},
+  {name:"Mercury(I) iodide",formula:"Hg₂I₂",ksp:5.2e-29,cat:"Mercury",expr:"[Hg₂²⁺][I⁻]²",m:1,n:2},
+  {name:"Mercury(II) sulphide (red)",formula:"HgS",ksp:4e-53,cat:"Mercury",expr:"[Hg²⁺][S²⁻]",m:1,n:1},
+  {name:"Mercury(II) iodide",formula:"HgI₂",ksp:2.9e-29,cat:"Mercury",expr:"[Hg²⁺][I⁻]²",m:1,n:2},
+  // Other - Magnesium
+  {name:"Magnesium carbonate",formula:"MgCO₃",ksp:6.82e-6,cat:"Other",expr:"[Mg²⁺][CO₃²⁻]",m:1,n:1},
+  {name:"Magnesium fluoride",formula:"MgF₂",ksp:5.16e-11,cat:"Other",expr:"[Mg²⁺][F⁻]²",m:1,n:2},
+  {name:"Magnesium hydroxide",formula:"Mg(OH)₂",ksp:5.61e-12,cat:"Other",expr:"[Mg²⁺][OH⁻]²",m:1,n:2},
+  {name:"Magnesium phosphate",formula:"Mg₃(PO₄)₂",ksp:1.04e-24,cat:"Other",expr:"[Mg²⁺]³[PO₄³⁻]²",m:3,n:2},
+  // Other - Zinc
+  {name:"Zinc carbonate",formula:"ZnCO₃",ksp:1.46e-10,cat:"Other",expr:"[Zn²⁺][CO₃²⁻]",m:1,n:1},
+  {name:"Zinc hydroxide",formula:"Zn(OH)₂",ksp:3.0e-17,cat:"Other",expr:"[Zn²⁺][OH⁻]²",m:1,n:2},
+  {name:"Zinc oxalate",formula:"ZnC₂O₄",ksp:2.75e-8,cat:"Other",expr:"[Zn²⁺][C₂O₄²⁻]",m:1,n:1},
+  {name:"Zinc phosphate",formula:"Zn₃(PO₄)₂",ksp:9.0e-33,cat:"Other",expr:"[Zn²⁺]³[PO₄³⁻]²",m:3,n:2},
+  {name:"Zinc sulphide",formula:"ZnS",ksp:2.0e-25,cat:"Other",expr:"[Zn²⁺][S²⁻]",m:1,n:1},
+  // Other - Aluminium
+  {name:"Aluminium hydroxide",formula:"Al(OH)₃",ksp:1.3e-33,cat:"Other",expr:"[Al³⁺][OH⁻]³",m:1,n:3},
+  {name:"Aluminium phosphate",formula:"AlPO₄",ksp:9.84e-21,cat:"Other",expr:"[Al³⁺][PO₄³⁻]",m:1,n:1},
+  // Other - Nickel
+  {name:"Nickel(II) carbonate",formula:"NiCO₃",ksp:1.42e-7,cat:"Other",expr:"[Ni²⁺][CO₃²⁻]",m:1,n:1},
+  {name:"Nickel(II) hydroxide",formula:"Ni(OH)₂",ksp:5.48e-16,cat:"Other",expr:"[Ni²⁺][OH⁻]²",m:1,n:2},
+  {name:"Nickel(II) sulphide",formula:"NiS",ksp:1.3e-25,cat:"Other",expr:"[Ni²⁺][S²⁻]",m:1,n:1},
+  // Other - Cobalt
+  {name:"Cobalt(II) hydroxide",formula:"Co(OH)₂",ksp:5.92e-15,cat:"Other",expr:"[Co²⁺][OH⁻]²",m:1,n:2},
+  {name:"Cobalt(II) carbonate",formula:"CoCO₃",ksp:1.4e-13,cat:"Other",expr:"[Co²⁺][CO₃²⁻]",m:1,n:1},
+  {name:"Cobalt(II) phosphate",formula:"Co₃(PO₄)₂",ksp:2.05e-35,cat:"Other",expr:"[Co²⁺]³[PO₄³⁻]²",m:3,n:2},
+  // Other - Manganese
+  {name:"Manganese(II) carbonate",formula:"MnCO₃",ksp:2.24e-11,cat:"Other",expr:"[Mn²⁺][CO₃²⁻]",m:1,n:1},
+  {name:"Manganese(II) hydroxide",formula:"Mn(OH)₂",ksp:2.06e-13,cat:"Other",expr:"[Mn²⁺][OH⁻]²",m:1,n:2},
+  {name:"Manganese(II) sulphide",formula:"MnS",ksp:4.65e-14,cat:"Other",expr:"[Mn²⁺][S²⁻]",m:1,n:1},
+  // Other - Strontium
+  {name:"Strontium carbonate",formula:"SrCO₃",ksp:5.60e-10,cat:"Other",expr:"[Sr²⁺][CO₃²⁻]",m:1,n:1},
+  {name:"Strontium fluoride",formula:"SrF₂",ksp:4.33e-9,cat:"Other",expr:"[Sr²⁺][F⁻]²",m:1,n:2},
+  {name:"Strontium sulphate",formula:"SrSO₄",ksp:3.44e-7,cat:"Other",expr:"[Sr²⁺][SO₄²⁻]",m:1,n:1},
+  // Other - Cadmium
+  {name:"Cadmium carbonate",formula:"CdCO₃",ksp:1.0e-12,cat:"Other",expr:"[Cd²⁺][CO₃²⁻]",m:1,n:1},
+  {name:"Cadmium hydroxide",formula:"Cd(OH)₂",ksp:7.2e-15,cat:"Other",expr:"[Cd²⁺][OH⁻]²",m:1,n:2},
+  {name:"Cadmium sulphide",formula:"CdS",ksp:8.0e-27,cat:"Other",expr:"[Cd²⁺][S²⁻]",m:1,n:1},
+  // Other - Lithium
+  {name:"Lithium carbonate",formula:"Li₂CO₃",ksp:8.15e-4,cat:"Other",expr:"[Li⁺]²[CO₃²⁻]",m:2,n:1},
+  {name:"Lithium fluoride",formula:"LiF",ksp:1.84e-3,cat:"Other",expr:"[Li⁺][F⁻]",m:1,n:1},
+  {name:"Lithium phosphate",formula:"Li₃PO₄",ksp:2.37e-11,cat:"Other",expr:"[Li⁺]³[PO₄³⁻]",m:3,n:1},
+  // Other - Beryllium/Scandium
+  {name:"Beryllium hydroxide",formula:"Be(OH)₂",ksp:6.92e-22,cat:"Other",expr:"[Be²⁺][OH⁻]²",m:1,n:2},
+  {name:"Scandium fluoride",formula:"ScF₃",ksp:5.81e-24,cat:"Other",expr:"[Sc³⁺][F⁻]³",m:1,n:3},
+  {name:"Scandium hydroxide",formula:"Sc(OH)₃",ksp:2.22e-31,cat:"Other",expr:"[Sc³⁺][OH⁻]³",m:1,n:3},
+  // Other - Lanthanum/Rare earth
+  {name:"Lanthanum iodate",formula:"La(IO₃)₃",ksp:7.50e-12,cat:"Other",expr:"[La³⁺][IO₃⁻]³",m:1,n:3},
+  // Other oxalates
+  {name:"Magnesium oxalate",formula:"MgC₂O₄",ksp:4.83e-6,cat:"Other",expr:"[Mg²⁺][C₂O₄²⁻]",m:1,n:1},
+  {name:"Strontium oxalate",formula:"SrC₂O₄",ksp:5.61e-8,cat:"Other",expr:"[Sr²⁺][C₂O₄²⁻]",m:1,n:1},
+  // Other - Bismuth
+  {name:"Bismuth sulphide",formula:"Bi₂S₃",ksp:1.0e-97,cat:"Other",expr:"[Bi³⁺]²[S²⁻]³",m:2,n:3},
+  // Other - Fluorides
+  {name:"Strontium fluoride",formula:"SrF₂",ksp:4.33e-9,cat:"Other",expr:"[Sr²⁺][F⁻]²",m:1,n:2},
+  {name:"Barium fluoride",formula:"BaF₂",ksp:1.84e-7,cat:"Barium",expr:"[Ba²⁺][F⁻]²",m:1,n:2},
+];
+
+// ══════════════════════════════════════════
+//  APP STATE
+// ══════════════════════════════════════════
+let currentTheme = localStorage.getItem('ksp-theme') || 'dark';
+let currentFS = parseInt(localStorage.getItem('ksp-fs') || '16');
+let libSortField = 'name';
+let libSortAsc = true;
+let libCatFilter = 'all';
+let libSearchQ = '';
+let settings = JSON.parse(localStorage.getItem('ksp-settings') || '{}');
+const SF = () => parseInt(document.getElementById('stg-sf')?.value || settings.sf || 3);
+
+// ══════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  applyTheme(currentTheme);
+  applyFS(currentFS);
+  initTabs();
+  initCollapsibles();
+  initLibrary();
+  initCalculatorModes();
+  initSimulators();
+  initCustomCalc();
+  loadSettings();
+  renderMathInElement(document.body,{
+    delimiters:[{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}],
+    throwOnError:false
+  });
+});
+
+// ══════════════════════════════════════════
+//  THEME
+// ══════════════════════════════════════════
+function applyTheme(t){
+  currentTheme = t;
+  document.documentElement.setAttribute('data-theme',t);
+  const btn = document.getElementById('theme-btn');
+  const ico = btn.querySelector('.theme-icon');
+  const lbl = btn.querySelector('span:last-child');
+  ico.textContent = t==='dark'?'🌙':'☀️';
+  lbl.textContent = t==='dark'?'Dark':'Light';
+  btn.classList.toggle('active', t==='light');
+  const sel = document.getElementById('stg-theme');
+  if(sel) sel.value = t;
+  localStorage.setItem('ksp-theme',t);
+  redrawAllCanvas();
+}
+document.getElementById('theme-btn').onclick = () => applyTheme(currentTheme==='dark'?'light':'dark');
+function setTheme(v){applyTheme(v)}
+
+// ══════════════════════════════════════════
+//  FONT SIZE
+// ══════════════════════════════════════════
+function applyFS(v){
+  currentFS = v;
+  document.documentElement.style.setProperty('--fs', v+'px');
+  document.getElementById('fs-reset').textContent = Math.round(v/16*100)+'%';
+  const sel = document.getElementById('stg-fs');
+  if(sel) sel.value = v;
+  localStorage.setItem('ksp-fs',v);
+}
+document.getElementById('fs-down').onclick = () => applyFS(Math.max(11, currentFS-1));
+document.getElementById('fs-up').onclick = () => applyFS(Math.min(24, currentFS+1));
+document.getElementById('fs-reset').onclick = () => applyFS(16);
+function setFSFromSettings(v){applyFS(parseInt(v))}
+
+// ══════════════════════════════════════════
+//  TABS
+// ══════════════════════════════════════════
+function initTabs(){
+  document.querySelectorAll('.tbtn').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('.tbtn').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.tpanel').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      const tp = document.getElementById('tab-'+b.dataset.tab);
+      if(tp) tp.classList.add('active');
+      if(b.dataset.tab==='library') renderLib();
+      if(b.dataset.tab==='simulator'){setTimeout(()=>{drawCICanvas();drawSPCanvas();drawQMCanvas();},50);}
+    });
+  });
+}
+
+// ══════════════════════════════════════════
+//  COLLAPSIBLES
+// ══════════════════════════════════════════
+function toggleColl(hdr){
+  const el = hdr.parentElement;
+  el.classList.toggle('open');
+}
+function initCollapsibles(){
+  // Expand/collapse all for notes
+  document.getElementById('expand-all').onclick = () =>
+    document.querySelectorAll('#tab-notes .coll').forEach(c=>c.classList.add('open'));
+  document.getElementById('collapse-all').onclick = () =>
+    document.querySelectorAll('#tab-notes .coll').forEach(c=>c.classList.remove('open'));
+  document.getElementById('calc-expand-all').onclick = () =>
+    document.querySelectorAll('#tab-calculations .coll').forEach(c=>c.classList.add('open'));
+  document.getElementById('calc-collapse-all').onclick = () =>
+    document.querySelectorAll('#tab-calculations .coll').forEach(c=>c.classList.remove('open'));
+}
+
+// ══════════════════════════════════════════
+//  LIBRARY
+// ══════════════════════════════════════════
+function initLibrary(){
+  renderLib();
+}
+function filterLib(){
+  libSearchQ = document.getElementById('lib-search').value.toLowerCase();
+  renderLib();
+}
+function setLibCat(btn, cat){
+  document.querySelectorAll('#cat-filters .fbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  libCatFilter = cat;
+  renderLib();
+}
+function sortLib(field){
+  if(libSortField===field) libSortAsc=!libSortAsc;
+  else {libSortField=field; libSortAsc=true;}
+  renderLib();
+}
+function solClass(ksp){
+  if(ksp>1e-3) return '<span class="sol-badge sol-mod">Moderately soluble</span>';
+  if(ksp>1e-8) return '<span class="sol-badge sol-sparing">Sparingly soluble</span>';
+  return '<span class="sol-badge sol-insol">Practically insoluble</span>';
+}
+function fmtKsp(v){
+  if(v===0) return '0';
+  const exp = Math.floor(Math.log10(Math.abs(v)));
+  const mantissa = v/Math.pow(10,exp);
+  const m = mantissa.toPrecision(3);
+  if(exp===0) return m;
+  return `${m} × 10<sup>${exp}</sup>`;
+}
+function renderLib(){
+  // de-dup by name+formula
+  let data = [...KSP_DATA];
+  // filter unique
+  const seen=new Set(); data=data.filter(d=>{const k=d.formula+d.name;if(seen.has(k))return false;seen.add(k);return true;});
+  if(libCatFilter!=='all') data=data.filter(d=>d.cat===libCatFilter);
+  if(libSearchQ) data=data.filter(d=>d.name.toLowerCase().includes(libSearchQ)||d.formula.toLowerCase().includes(libSearchQ));
+  data.sort((a,b)=>{
+    let va,vb;
+    if(libSortField==='name'){va=a.name;vb=b.name;return libSortAsc?va.localeCompare(vb):vb.localeCompare(va);}
+    if(libSortField==='formula'){va=a.formula;vb=b.formula;return libSortAsc?va.localeCompare(vb):vb.localeCompare(va);}
+    if(libSortField==='ksp'){va=a.ksp;vb=b.ksp;return libSortAsc?va-vb:vb-va;}
+    if(libSortField==='pksp'){va=-Math.log10(a.ksp);vb=-Math.log10(b.ksp);return libSortAsc?va-vb:vb-va;}
+    return 0;
+  });
+  const tbody = document.getElementById('lib-tbody');
+  if(data.length===0){tbody.innerHTML=`<tr><td colspan="6" class="tbl-empty">No compounds found matching your search.</td></tr>`;return;}
+  tbody.innerHTML=data.map(d=>`
+    <tr>
+      <td class="td-name">${d.name}</td>
+      <td class="td-formula">${d.formula}</td>
+      <td class="td-ksp">${fmtKsp(d.ksp)}</td>
+      <td class="td-pksp">${(-Math.log10(d.ksp)).toFixed(2)}</td>
+      <td>${solClass(d.ksp)}</td>
+      <td class="td-cat" style="font-size:.78rem;font-family:'JetBrains Mono',monospace;color:var(--txt-s)">${d.expr}</td>
+    </tr>`).join('');
+  document.getElementById('lib-stats').textContent = `Showing ${data.length} of ${KSP_DATA.length} compounds`;
+}
+
+// ══════════════════════════════════════════
+//  CALCULATOR MODES
+// ══════════════════════════════════════════
+function initCalculatorModes(){
+  document.querySelectorAll('.mode-btn').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('.mode-btn').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.calc-panel').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      const p = document.getElementById('mode-'+b.dataset.mode);
+      if(p) p.classList.add('active');
+    });
+  });
+  document.getElementById('ksp-type').onchange = function(){
+    document.getElementById('ksp-custom-row').style.display = this.value==='custom'?'grid':'none';
+  };
+}
+
+function parseTypeStr(tStr){
+  // tStr = "12" means m=1, n=2
+  const m=parseInt(tStr[0]);const n=parseInt(tStr[1]);return{m,n};
+}
+
+function sciStr(v,sf){
+  if(!isFinite(v)||isNaN(v)) return 'Error';
+  const exp=Math.floor(Math.log10(Math.abs(v)));
+  const mant=(v/Math.pow(10,exp)).toPrecision(sf||3);
+  return `${mant} × 10^${exp}`;
+}
+function sciHTML(v,sf){
+  if(!isFinite(v)||isNaN(v)) return '<span style="color:var(--red)">Error</span>';
+  const exp=Math.floor(Math.log10(Math.abs(v)));
+  const mant=(v/Math.pow(10,exp)).toPrecision(sf||3);
+  return `${mant} × 10<sup>${exp}</sup>`;
+}
+
+// ── Ksp from ions ──
+function calcKsp(){
+  const tStr = document.getElementById('ksp-type').value;
+  const salt = document.getElementById('ksp-salt').value||'Salt';
+  const catV = parseFloat(document.getElementById('ksp-cat').value);
+  const anV  = parseFloat(document.getElementById('ksp-an').value);
+  let m,n;
+  if(tStr==='custom'){m=parseInt(document.getElementById('ksp-m').value);n=parseInt(document.getElementById('ksp-n').value);}
+  else {const t=parseTypeStr(tStr);m=t.m;n=t.n;}
+  if(isNaN(catV)||isNaN(anV)||catV<=0||anV<=0){
+    showResult('ksp-result',false,'Please enter valid positive concentrations for both ions.');return;
+  }
+  const ksp = Math.pow(catV,m)*Math.pow(anV,n);
+  const pksp = -Math.log10(ksp);
+  const sf = SF();
+  const units = `mol<sup>${m+n}</sup> dm<sup>-${3*(m+n)}</sup>`;
+  const html = `
+    <div class="result-title">K<sub>sp</sub> Calculation Result</div>
+    <div class="result-row"><span class="result-key">Compound</span><span class="result-val">${salt}</span></div>
+    <div class="result-row"><span class="result-key">Expression</span><span class="result-val">[cat]<sup>${m}</sup>[an]<sup>${n}</sup></span></div>
+    <div class="result-row"><span class="result-key">Cation conc.</span><span class="result-val">${sciHTML(catV,sf)} mol dm<sup>-3</sup></span></div>
+    <div class="result-row"><span class="result-key">Anion conc.</span><span class="result-val">${sciHTML(anV,sf)} mol dm<sup>-3</sup></span></div>
+    <div class="result-row"><span class="result-key">K<sub>sp</sub></span><span class="result-val big">${sciHTML(ksp,sf)} ${units}</span></div>
+    <div class="result-row"><span class="result-key">pK<sub>sp</sub> = −log K<sub>sp</sub></span><span class="result-val">${pksp.toFixed(2)}</span></div>`;
+  showResult('ksp-result',true,html);
+}
+function clearKsp(){document.getElementById('ksp-cat').value='';document.getElementById('ksp-an').value='';hideResult('ksp-result');}
+
+// ── Solubility from Ksp ──
+function calcSolubility(){
+  const tStr=document.getElementById('sol-type').value;
+  const ksp=parseFloat(document.getElementById('sol-ksp').value);
+  const salt=document.getElementById('sol-salt').value||'Salt';
+  const Mr=parseFloat(document.getElementById('sol-mr').value);
+  if(isNaN(ksp)||ksp<=0){showResult('sol-result',false,'Please enter a valid K<sub>sp</sub> value.');return;}
+  const {m,n}=parseTypeStr(tStr);
+  const sf=SF();
+  let s, coeff, formula, steps;
+  // s for AB: s^2=Ksp
+  // s for AB2 or A2B: 4s^3=Ksp
+  // s for AB3 or A3B: 27s^4=Ksp
+  // s for A2B3 or A3B2: 108s^5=Ksp
+  if(m===1&&n===1){s=Math.sqrt(ksp);coeff=1;formula='s² = K<sub>sp</sub> → s = √K<sub>sp</sub>';}
+  else if((m===1&&n===2)||(m===2&&n===1)){s=Math.cbrt(ksp/4);coeff=4;formula='4s³ = K<sub>sp</sub> → s = ∛(K<sub>sp</sub>/4)';}
+  else if((m===1&&n===3)||(m===3&&n===1)){s=Math.pow(ksp/27,1/4);coeff=27;formula='27s⁴ = K<sub>sp</sub> → s = (K<sub>sp</sub>/27)^(1/4)';}
+  else if((m===2&&n===3)||(m===3&&n===2)){s=Math.pow(ksp/108,0.2);coeff=108;formula='108s⁵ = K<sub>sp</sub> → s = (K<sub>sp</sub>/108)^(1/5)';}
+  else{s=Math.pow(ksp,1/(m+n));formula='General case';}
+  const catConc=m*s, anConc=n*s;
+  let html=`
+    <div class="result-title">Solubility Calculation Result</div>
+    <div class="result-row"><span class="result-key">Compound</span><span class="result-val">${salt}</span></div>
+    <div class="result-row"><span class="result-key">K<sub>sp</sub></span><span class="result-val">${sciHTML(ksp,sf)}</span></div>
+    <div class="result-row"><span class="result-key">Method</span><span class="result-val" style="font-size:.8rem;text-align:right">${formula}</span></div>
+    <div class="result-row"><span class="result-key">Solubility (s)</span><span class="result-val big">${sciHTML(s,sf)} mol dm<sup>-3</sup></span></div>
+    <div class="result-row"><span class="result-key">Cation [conc]</span><span class="result-val">${m===1?'= s = ':m+'s = '}${sciHTML(catConc,sf)} mol dm<sup>-3</sup></span></div>
+    <div class="result-row"><span class="result-key">Anion [conc]</span><span class="result-val">${n===1?'= s = ':n+'s = '}${sciHTML(anConc,sf)} mol dm<sup>-3</sup></span></div>`;
+  if(!isNaN(Mr)&&Mr>0){
+    html+=`<div class="result-row"><span class="result-key">Solubility (g dm⁻³)</span><span class="result-val">${(s*Mr).toPrecision(sf)} g dm<sup>-3</sup></span></div>`;
+  }
+  showResult('sol-result',true,html);
+}
+function clearSol(){document.getElementById('sol-ksp').value='';document.getElementById('sol-salt').value='';document.getElementById('sol-mr').value='';hideResult('sol-result');}
+
+// ── Predict Precipitation ──
+function calcPredict(){
+  const tStr=document.getElementById('pred-type').value;
+  const catV=parseFloat(document.getElementById('pred-cat').value);
+  const anV=parseFloat(document.getElementById('pred-an').value);
+  const ksp=parseFloat(document.getElementById('pred-ksp').value);
+  const salt=document.getElementById('pred-salt').value||'Salt';
+  const mix=document.getElementById('pred-mix').value;
+  if(isNaN(catV)||isNaN(anV)||isNaN(ksp)||catV<=0||anV<=0||ksp<=0){
+    showResult('pred-result',false,'Please fill all fields with valid positive values.');return;
+  }
+  const {m,n}=parseTypeStr(tStr);
+  let cat=catV,an=anV;
+  if(mix==='equal'){cat/=2;an/=2;}
+  const Q=Math.pow(cat,m)*Math.pow(an,n);
+  const sf=SF();
+  const ratio=Q/ksp;
+  let verdict,vclass,icon;
+  if(Math.abs(ratio-1)<0.001){verdict='At equilibrium — saturated solution';vclass='color:var(--gold)';icon='⚖️';}
+  else if(Q>ksp){verdict='Q > K<sub>sp</sub> — PRECIPITATE WILL FORM';vclass='color:var(--red)';icon='🌧️';}
+  else{verdict='Q < K<sub>sp</sub> — No precipitate forms';vclass='color:var(--grn)';icon='✅';}
+  const html=`
+    <div class="result-title">Precipitation Prediction</div>
+    ${mix==='equal'?`<div class="result-row"><span class="result-key">After mixing (½ conc.)</span><span class="result-val">[cat]=${sciHTML(cat,sf)}, [an]=${sciHTML(an,sf)}</span></div>`:''}
+    <div class="result-row"><span class="result-key">Ionic product Q</span><span class="result-val">${sciHTML(Q,sf)}</span></div>
+    <div class="result-row"><span class="result-key">K<sub>sp</sub></span><span class="result-val">${sciHTML(ksp,sf)}</span></div>
+    <div class="result-row"><span class="result-key">Q / K<sub>sp</sub></span><span class="result-val">${ratio.toPrecision(3)}</span></div>
+    <div style="text-align:center;margin-top:.75rem;font-size:1.05rem;font-weight:700;${vclass}">${icon} ${verdict}</div>`;
+  const isPrec=Q>ksp;
+  showResult('pred-result',isPrec,html);
+  document.getElementById('pred-result').classList.toggle('error',isPrec);
+  document.getElementById('pred-result').classList.toggle('success',!isPrec);
+}
+function clearPredict(){['pred-cat','pred-an','pred-ksp','pred-salt'].forEach(id=>document.getElementById(id).value='');hideResult('pred-result');}
+
+// ── Common Ion ──
+function calcCommonIon(){
+  const tStr=document.getElementById('ci-type').value;
+  const ksp=parseFloat(document.getElementById('ci-ksp').value);
+  const comConc=parseFloat(document.getElementById('ci-conc').value);
+  const which=document.getElementById('ci-which').value;
+  const salt=document.getElementById('ci-salt').value||'Salt';
+  if(isNaN(ksp)||isNaN(comConc)||ksp<=0||comConc<=0){showResult('ci-result',false,'Enter valid values.');return;}
+  const {m,n}=parseTypeStr(tStr);
+  const sf=SF();
+  let s, catConc, anConc;
+  // common ion is anion: Ksp = (s)^m * (comConc)^n => s = (Ksp/comConc^n)^(1/m)
+  // common ion is cation: Ksp = (comConc)^m * (s)^n => s = (Ksp/comConc^m)^(1/n)
+  if(which==='anion'){
+    s=Math.pow(ksp/Math.pow(comConc,n),1/m);
+    catConc=m===1?s:m*s;anConc=comConc;
+  } else {
+    s=Math.pow(ksp/Math.pow(comConc,m),1/n);
+    catConc=comConc;anConc=n===1?s:n*s;
+  }
+  // solubility in pure water for comparison
+  let sPure;
+  if(m===1&&n===1)sPure=Math.sqrt(ksp);
+  else if((m===1&&n===2)||(m===2&&n===1))sPure=Math.cbrt(ksp/4);
+  else sPure=Math.pow(ksp,1/(m+n));
+  const reduction=sPure/s;
+  const html=`
+    <div class="result-title">Common Ion Effect — Solubility Result</div>
+    <div class="result-row"><span class="result-key">Salt</span><span class="result-val">${salt}</span></div>
+    <div class="result-row"><span class="result-key">Common ion type</span><span class="result-val">${which}</span></div>
+    <div class="result-row"><span class="result-key">Common [ion]</span><span class="result-val">${sciHTML(comConc,sf)} mol dm<sup>-3</sup></span></div>
+    <div class="result-row"><span class="result-key">Solubility in pure water</span><span class="result-val">${sciHTML(sPure,sf)} mol dm<sup>-3</sup></span></div>
+    <div class="result-row"><span class="result-key">Solubility with common ion</span><span class="result-val big">${sciHTML(s,sf)} mol dm<sup>-3</sup></span></div>
+    <div class="result-row"><span class="result-key">Reduction factor</span><span class="result-val">${reduction.toPrecision(3)}× less soluble</span></div>`;
+  showResult('ci-result',true,html);
+}
+function clearCI(){['ci-ksp','ci-conc','ci-salt'].forEach(id=>document.getElementById(id).value='');hideResult('ci-result');}
+
+// ── Min concentration ──
+function calcMinConc(){
+  const tStr=document.getElementById('mc-type').value;
+  const ksp=parseFloat(document.getElementById('mc-ksp').value);
+  const known=parseFloat(document.getElementById('mc-known').value);
+  const which=document.getElementById('mc-which').value;
+  const salt=document.getElementById('mc-salt').value||'Salt';
+  if(isNaN(ksp)||isNaN(known)||ksp<=0||known<=0){showResult('mc-result',false,'Enter valid values.');return;}
+  const {m,n}=parseTypeStr(tStr);
+  const sf=SF();
+  let minConc;
+  // Ksp = cat^m * an^n
+  if(which==='cation'){
+    // given an, find min cat: cat^m = Ksp/an^n → cat = (Ksp/an^n)^(1/m)
+    minConc=Math.pow(ksp/Math.pow(known,n),1/m);
+  } else {
+    // given cat, find min an
+    minConc=Math.pow(ksp/Math.pow(known,m),1/n);
+  }
+  const html=`
+    <div class="result-title">Minimum Concentration to Precipitate</div>
+    <div class="result-row"><span class="result-key">Salt</span><span class="result-val">${salt}</span></div>
+    <div class="result-row"><span class="result-key">Known ion concentration</span><span class="result-val">${sciHTML(known,sf)} mol dm<sup>-3</sup></span></div>
+    <div class="result-row"><span class="result-key">K<sub>sp</sub></span><span class="result-val">${sciHTML(ksp,sf)}</span></div>
+    <div class="result-row"><span class="result-key">Minimum ${which} conc. to precipitate</span><span class="result-val big">${sciHTML(minConc,sf)} mol dm<sup>-3</sup></span></div>
+    <div style="margin-top:.5rem;font-size:.85rem;color:var(--txt-s)">Adding more than this concentration will cause precipitation to begin.</div>`;
+  showResult('mc-result',true,html);
+}
+function clearMC(){['mc-ksp','mc-known','mc-salt'].forEach(id=>document.getElementById(id).value='');hideResult('mc-result');}
+
+function showResult(id,ok,html){
+  const el=document.getElementById(id);
+  el.innerHTML=html;el.style.display='block';
+  el.classList.toggle('success',ok);el.classList.toggle('error',!ok);
+  if(window.renderMathInElement) renderMathInElement(el,{delimiters:[{left:'\\(',right:'\\)',display:false}],throwOnError:false});
+}
+function hideResult(id){const el=document.getElementById(id);el.style.display='none';}
+
+// ══════════════════════════════════════════
+//  CUSTOM PROBLEM SOLVER (in Calculations tab)
+// ══════════════════════════════════════════
+function initCustomCalc(){
+  const sel=document.getElementById('cust-type');
+  if(sel) sel.onchange=renderCustomForm;
+  renderCustomForm();
+}
+const CUSTOM_FORMS = {
+  'ksp-from-s': `
+    <div class="row-2">
+      <div class="frm-group"><label class="frm-label">Formula / Salt name</label><input class="frm-input" id="cf-salt" placeholder="e.g. AgCl"></div>
+      <div class="frm-group"><label class="frm-label">Dissolution type</label>
+        <select class="frm-select" id="cf-type"><option value="11">AB (1:1)</option><option value="12">AB₂ (1:2)</option><option value="21">A₂B (2:1)</option><option value="13">AB₃ (1:3)</option><option value="23">A₂B₃ (2:3)</option></select></div>
+    </div>
+    <div class="frm-group"><label class="frm-label">Solubility s (mol dm⁻³)</label><input class="frm-input" id="cf-s" placeholder="e.g. 1.65e-3" type="number" step="any"></div>
+    <button class="btn" onclick="runCustom('ksp-from-s')">Solve</button>`,
+  's-from-ksp': `
+    <div class="row-2">
+      <div class="frm-group"><label class="frm-label">Formula / Salt name</label><input class="frm-input" id="cf-salt" placeholder="e.g. Mg(OH)₂"></div>
+      <div class="frm-group"><label class="frm-label">Dissolution type</label>
+        <select class="frm-select" id="cf-type"><option value="11">AB (1:1)</option><option value="12">AB₂ (1:2)</option><option value="21">A₂B (2:1)</option><option value="13">AB₃ (1:3)</option><option value="23">A₂B₃ (2:3)</option></select></div>
+    </div>
+    <div class="frm-group"><label class="frm-label">K<sub>sp</sub> value</label><input class="frm-input" id="cf-ksp" placeholder="e.g. 5.61e-12" type="number" step="any"></div>
+    <button class="btn" onclick="runCustom('s-from-ksp')">Solve</button>`,
+  'q-predict': `
+    <div class="row-3">
+      <div class="frm-group"><label class="frm-label">Salt</label><input class="frm-input" id="cf-salt" placeholder="e.g. BaSO₄"></div>
+      <div class="frm-group"><label class="frm-label">Type</label><select class="frm-select" id="cf-type"><option value="11">AB</option><option value="12">AB₂</option><option value="21">A₂B</option></select></div>
+      <div class="frm-group"><label class="frm-label">K<sub>sp</sub></label><input class="frm-input" id="cf-ksp" type="number" step="any" placeholder="e.g. 1.08e-10"></div>
+    </div>
+    <div class="row-2">
+      <div class="frm-group"><label class="frm-label">Cation conc. (mol dm⁻³)</label><input class="frm-input" id="cf-cat" type="number" step="any"></div>
+      <div class="frm-group"><label class="frm-label">Anion conc. (mol dm⁻³)</label><input class="frm-input" id="cf-an" type="number" step="any"></div>
+    </div>
+    <button class="btn" onclick="runCustom('q-predict')">Predict</button>`,
+  'common-ion': `
+    <div class="row-2">
+      <div class="frm-group"><label class="frm-label">Salt</label><input class="frm-input" id="cf-salt" placeholder="e.g. BaSO₄"></div>
+      <div class="frm-group"><label class="frm-label">Type</label><select class="frm-select" id="cf-type"><option value="11">AB (1:1)</option><option value="12">AB₂ (1:2)</option><option value="21">A₂B (2:1)</option></select></div>
+    </div>
+    <div class="row-2">
+      <div class="frm-group"><label class="frm-label">K<sub>sp</sub></label><input class="frm-input" id="cf-ksp" type="number" step="any"></div>
+      <div class="frm-group"><label class="frm-label">Common ion conc. (mol dm⁻³)</label><input class="frm-input" id="cf-ci" type="number" step="any"></div>
+    </div>
+    <div class="frm-group"><label class="frm-label">Common ion is the</label><select class="frm-select" id="cf-which"><option value="anion">Anion</option><option value="cation">Cation</option></select></div>
+    <button class="btn" onclick="runCustom('common-ion')">Solve</button>`
+};
+function renderCustomForm(){
+  const t=document.getElementById('cust-type').value;
+  document.getElementById('cust-form-area').innerHTML=CUSTOM_FORMS[t]||'';
+  hideResult('cust-result');
+}
+function runCustom(type){
+  const sf=SF();
+  const salt=document.getElementById('cf-salt')?.value||'Salt';
+  const tStr=document.getElementById('cf-type')?.value||'11';
+  const {m,n}=parseTypeStr(tStr);
+  let html='',ok=true;
+  if(type==='ksp-from-s'){
+    const s=parseFloat(document.getElementById('cf-s').value);
+    if(isNaN(s)||s<=0){ok=false;html='Enter valid solubility.';} 
+    else{
+      const catC=m*s, anC=n*s, ksp=Math.pow(catC,m)*Math.pow(anC,n);
+      html=`<div class="result-title">K<sub>sp</sub> from solubility — ${salt}</div>
+      <div class="result-row"><span class="result-key">s (solubility)</span><span class="result-val">${sciHTML(s,sf)} mol dm<sup>-3</sup></span></div>
+      <div class="result-row"><span class="result-key">[cation] = ${m}s</span><span class="result-val">${sciHTML(catC,sf)} mol dm<sup>-3</sup></span></div>
+      <div class="result-row"><span class="result-key">[anion] = ${n}s</span><span class="result-val">${sciHTML(anC,sf)} mol dm<sup>-3</sup></span></div>
+      <div class="result-row"><span class="result-key">K<sub>sp</sub></span><span class="result-val big">${sciHTML(ksp,sf)}</span></div>
+      <div class="result-row"><span class="result-key">pK<sub>sp</sub></span><span class="result-val">${(-Math.log10(ksp)).toFixed(2)}</span></div>`;
+    }
+  } else if(type==='s-from-ksp'){
+    const ksp=parseFloat(document.getElementById('cf-ksp').value);
+    if(isNaN(ksp)||ksp<=0){ok=false;html='Enter valid Ksp.';} 
+    else{
+      let s;
+      if(m===1&&n===1)s=Math.sqrt(ksp);
+      else if((m===1&&n===2)||(m===2&&n===1))s=Math.cbrt(ksp/4);
+      else if((m===1&&n===3)||(m===3&&n===1))s=Math.pow(ksp/27,1/4);
+      else s=Math.pow(ksp/108,0.2);
+      html=`<div class="result-title">Solubility from K<sub>sp</sub> — ${salt}</div>
+      <div class="result-row"><span class="result-key">K<sub>sp</sub></span><span class="result-val">${sciHTML(ksp,sf)}</span></div>
+      <div class="result-row"><span class="result-key">Solubility s</span><span class="result-val big">${sciHTML(s,sf)} mol dm<sup>-3</sup></span></div>
+      <div class="result-row"><span class="result-key">[cation] = ${m}s</span><span class="result-val">${sciHTML(m*s,sf)} mol dm<sup>-3</sup></span></div>
+      <div class="result-row"><span class="result-key">[anion] = ${n}s</span><span class="result-val">${sciHTML(n*s,sf)} mol dm<sup>-3</sup></span></div>`;
+    }
+  } else if(type==='q-predict'){
+    const ksp=parseFloat(document.getElementById('cf-ksp').value);
+    const cat=parseFloat(document.getElementById('cf-cat').value);
+    const an=parseFloat(document.getElementById('cf-an').value);
+    if(isNaN(ksp)||isNaN(cat)||isNaN(an)){ok=false;html='Enter all values.';}
+    else{
+      const Q=Math.pow(cat,m)*Math.pow(an,n);
+      const precc=Q>ksp;
+      html=`<div class="result-title">Precipitation Prediction — ${salt}</div>
+      <div class="result-row"><span class="result-key">Q</span><span class="result-val">${sciHTML(Q,sf)}</span></div>
+      <div class="result-row"><span class="result-key">K<sub>sp</sub></span><span class="result-val">${sciHTML(ksp,sf)}</span></div>
+      <div style="text-align:center;font-size:1.05rem;font-weight:700;margin-top:.5rem;color:${precc?'var(--red)':'var(--grn)'}">${precc?'🌧️ PRECIPITATE FORMS':'✅ NO PRECIPITATE'}</div>`;
+      ok=!precc;
+    }
+  } else if(type==='common-ion'){
+    const ksp=parseFloat(document.getElementById('cf-ksp').value);
+    const ci=parseFloat(document.getElementById('cf-ci').value);
+    const which=document.getElementById('cf-which').value;
+    if(isNaN(ksp)||isNaN(ci)){ok=false;html='Enter valid values.';}
+    else{
+      let s;
+      if(which==='anion') s=Math.pow(ksp/Math.pow(ci,n),1/m);
+      else s=Math.pow(ksp/Math.pow(ci,m),1/n);
+      let sPure;
+      if(m===1&&n===1)sPure=Math.sqrt(ksp);
+      else if((m===1&&n===2)||(m===2&&n===1))sPure=Math.cbrt(ksp/4);
+      else sPure=Math.pow(ksp,1/(m+n));
+      html=`<div class="result-title">Common Ion Solubility — ${salt}</div>
+      <div class="result-row"><span class="result-key">Solubility in pure water</span><span class="result-val">${sciHTML(sPure,sf)} mol dm<sup>-3</sup></span></div>
+      <div class="result-row"><span class="result-key">With common ion (${sciHTML(ci,sf)} mol dm<sup>-3</sup>)</span><span class="result-val big">${sciHTML(s,sf)} mol dm<sup>-3</sup></span></div>
+      <div class="result-row"><span class="result-key">Reduction</span><span class="result-val">${(sPure/s).toPrecision(3)}× less soluble</span></div>`;
+    }
+  }
+  showResult('cust-result',ok,html);
+}
+
+// ══════════════════════════════════════════
+//  SIMULATORS
+// ══════════════════════════════════════════
+const SIM_SALTS = {
+  BaSO4: {name:'BaSO₄',ksp:1.08e-10,m:1,n:1,cat:'Ba²⁺',an:'SO₄²⁻',catColor:'#4db0e8',anColor:'#e8a84d',ciColor:'#e85c5c',ciLabel:'SO₄²⁻ from H₂SO₄',maxCI:0.5},
+  AgCl:  {name:'AgCl', ksp:1.77e-10,m:1,n:1,cat:'Ag⁺',  an:'Cl⁻',  catColor:'#c0c0c0',anColor:'#19c794',ciColor:'#a055e8',ciLabel:'Cl⁻ from NaCl',     maxCI:0.2},
+  CaF2:  {name:'CaF₂', ksp:3.45e-11,m:1,n:2,cat:'Ca²⁺', an:'F⁻',   catColor:'#4de880',anColor:'#e85c5c',ciColor:'#e8a84d',ciLabel:'F⁻ from NaF',      maxCI:0.3},
+  PbI2:  {name:'PbI₂', ksp:9.8e-9,  m:1,n:2,cat:'Pb²⁺', an:'I⁻',   catColor:'#aaaaaa',anColor:'#9055e8',ciColor:'#e85c5c',ciLabel:'I⁻ from KI',       maxCI:0.5},
+  MgOH2: {name:'Mg(OH)₂',ksp:5.61e-12,m:1,n:2,cat:'Mg²⁺',an:'OH⁻', catColor:'#4db0e8',anColor:'#e85c5c',ciColor:'#e8a84d',ciLabel:'OH⁻ from NaOH',   maxCI:0.2}
+};
+let currentSimSalt='BaSO4';
+let ciSliderVal=0,tempSliderVal=25;
+let molParticles=[];
+let ciAnimFrame=null;
+
+function getThemeColors(){
+  const d=currentTheme==='dark';
+  return {
+    bg:d?'#0f1c2a':'#f2f7fc',
+    grid:d?'#1a3048':'#dde8f4',
+    ax:d?'#223d56':'#b0c8e0',
+    txt:d?'#5e86a3':'#4a6a85',
+    surf:d?'#111f30':'#fff',
+    bdr:d?'#1c3550':'#c8daea',
+  };
+}
+
+function initSimulators(){
+  document.querySelectorAll('.stab').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('.stab').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.sim-panel').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      const p=document.getElementById('sim-'+b.dataset.sim);
+      if(p) p.classList.add('active');
+      setTimeout(()=>redrawAllCanvas(),50);
+    });
+  });
+  updateSimSalt();
+  updateSPSystem();
+  updateQM();
+  initMolParticles();
+  animMolCanvas();
+}
+
+function updateSimSalt(){
+  currentSimSalt=document.getElementById('sim-salt').value;
+  document.getElementById('ci-slider').value=0;
+  ciSliderVal=0;
+  updateCISlider();
+  drawCICanvas();
+  updateSimInfo();
+}
+
+function updateSimInfo(){
+  const d=SIM_SALTS[currentSimSalt];
+  const s_pure=d.m===1&&d.n===1?Math.sqrt(d.ksp):d.n===2?Math.cbrt(d.ksp/4):Math.sqrt(d.ksp);
+  const ci=ciSliderVal;
+  let s_ci;
+  if(ci===0){s_ci=s_pure;}
+  else{s_ci=Math.pow(d.ksp/Math.pow(ci,d.n),1/d.m);}
+  const el=document.getElementById('sim-info');
+  el.innerHTML=`
+    <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--acc);margin-bottom:.5rem">${d.name} System</div>
+    <div class="result-row" style="padding:.3rem 0;font-size:.83rem"><span class="result-key">K<sub>sp</sub></span><span class="result-val">${sciHTML(d.ksp,3)}</span></div>
+    <div class="result-row" style="padding:.3rem 0;font-size:.83rem"><span class="result-key">Solubility in water</span><span class="result-val">${sciHTML(s_pure,3)} mol dm⁻³</span></div>
+    <div class="result-row" style="padding:.3rem 0;font-size:.83rem"><span class="result-key">[${d.ciLabel}]</span><span class="result-val">${ci.toFixed(4)} mol dm⁻³</span></div>
+    <div class="result-row" style="padding:.3rem 0;font-size:.83rem"><span class="result-key">Solubility with common ion</span><span class="result-val txt-acc">${sciHTML(s_ci,3)} mol dm⁻³</span></div>
+    ${ci>0?`<div style="margin-top:.4rem;font-size:.78rem;color:var(--txt-s)">Reduction: <strong style="color:var(--acc)">${(s_pure/s_ci).toPrecision(2)}×</strong> less soluble</div>`:''}`;
+}
+
+function updateCISlider(){
+  const d=SIM_SALTS[currentSimSalt];
+  const v=parseInt(document.getElementById('ci-slider').value);
+  ciSliderVal=d.maxCI*v/100;
+  document.getElementById('ci-slider-val').textContent=ciSliderVal.toFixed(4)+' mol dm⁻³';
+  updateRangeStyle('ci-slider');
+  drawCICanvas();
+  updateSimInfo();
+}
+function updateTempSlider(){
+  const v=parseInt(document.getElementById('temp-slider').value);
+  tempSliderVal=v;
+  document.getElementById('temp-val').textContent=v+'°C';
+  updateRangeStyle('temp-slider');
+}
+function updateRangeStyle(id){
+  const el=document.getElementById(id);
+  const pct=(el.value-el.min)/(el.max-el.min)*100;
+  el.style.setProperty('--pct',pct+'%');
+}
+
+function drawCICanvas(){
+  const canvas=document.getElementById('ci-canvas');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  const tc=getThemeColors();
+  const d=SIM_SALTS[currentSimSalt];
+  ctx.fillStyle=tc.bg;ctx.fillRect(0,0,W,H);
+  const pad={l:60,r:20,t:20,b:50};
+  const pw=W-pad.l-pad.r,ph=H-pad.t-pad.b;
+  // axes
+  ctx.strokeStyle=tc.ax;ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(pad.l,pad.t);ctx.lineTo(pad.l,pad.t+ph);ctx.lineTo(pad.l+pw,pad.t+ph);ctx.stroke();
+  // labels
+  ctx.fillStyle=tc.txt;ctx.font='11px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText('[Common Ion] (mol dm⁻³)',pad.l+pw/2,H-8);
+  ctx.save();ctx.translate(14,pad.t+ph/2);ctx.rotate(-Math.PI/2);ctx.fillText('Solubility (mol dm⁻³)',0,0);ctx.restore();
+  // data
+  const nPts=120;
+  const maxCI=d.maxCI;
+  const s_pure=d.m===1&&d.n===1?Math.sqrt(d.ksp):d.n===2?Math.cbrt(d.ksp/4):Math.sqrt(d.ksp);
+  const s_min=d.m===1&&d.n===1?d.ksp/maxCI:Math.pow(d.ksp/Math.pow(maxCI,d.n),1/d.m);
+  const sMax=s_pure*1.05;
+  const sMin=Math.min(s_min,s_pure)*0.5;
+  const toY=s=>pad.t+ph*(1-(Math.log10(s)-Math.log10(sMin))/(Math.log10(sMax)-Math.log10(sMin)));
+  const toX=ci=>pad.l+pw*(ci/maxCI);
+  // grid
+  ctx.strokeStyle=tc.grid;ctx.lineWidth=0.6;ctx.setLineDash([3,4]);
+  for(let i=1;i<=4;i++){
+    const y=pad.t+ph*i/5;
+    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+pw,y);ctx.stroke();
+    ctx.fillStyle=tc.txt;ctx.textAlign='right';ctx.font='9px JetBrains Mono,monospace';
+    const sv=Math.exp(Math.log(sMax)+(Math.log(sMin)-Math.log(sMax))*i/5);
+    ctx.fillText(sv.toExponential(1),pad.l-4,y+3);
+  }
+  ctx.setLineDash([]);
+  // curve
+  const grad=ctx.createLinearGradient(pad.l,0,pad.l+pw,0);
+  grad.addColorStop(0,'#19c794');grad.addColorStop(1,'#4db0e8');
+  ctx.strokeStyle=grad;ctx.lineWidth=2.5;
+  ctx.beginPath();
+  for(let i=0;i<=nPts;i++){
+    const ci=maxCI*i/nPts;
+    const s=ci<1e-6?s_pure:d.m===1&&d.n===1?d.ksp/ci:Math.pow(d.ksp/Math.pow(ci,d.n),1/d.m);
+    const x=toX(ci),y=toY(s);
+    if(y<pad.t||y>pad.t+ph) continue;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+  // current point
+  const curCI=ciSliderVal;
+  const curS=curCI<1e-6?s_pure:d.m===1&&d.n===1?d.ksp/curCI:Math.pow(d.ksp/Math.pow(curCI,d.n),1/d.m);
+  const cx=toX(curCI),cy=toY(curS);
+  if(cy>=pad.t&&cy<=pad.t+ph){
+    ctx.fillStyle='#e85c5c';
+    ctx.beginPath();ctx.arc(cx,cy,6,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();
+    ctx.fillStyle=tc.txt;ctx.font='10px JetBrains Mono,monospace';ctx.textAlign='left';
+    ctx.fillText(curS.toExponential(2),cx+9,cy-4);
+  }
+  // pure water line
+  ctx.strokeStyle='rgba(255,255,255,.2)';ctx.lineWidth=1;ctx.setLineDash([4,4]);
+  const y0=toY(s_pure);
+  if(y0>=pad.t&&y0<=pad.t+ph){
+    ctx.beginPath();ctx.moveTo(pad.l,y0);ctx.lineTo(pad.l+pw,y0);ctx.stroke();
+    ctx.fillStyle=tc.txt;ctx.textAlign='left';ctx.font='9px DM Sans,sans-serif';ctx.setLineDash([]);
+    ctx.fillText('Pure water',pad.l+4,y0-3);
+  }
+  ctx.setLineDash([]);
+}
+
+// Molecular animation
+function initMolParticles(){
+  const d=SIM_SALTS[currentSimSalt];
+  molParticles=[];
+  for(let i=0;i<18;i++){
+    molParticles.push({x:100+Math.random()*300,y:20+Math.random()*160,vx:(Math.random()-.5)*1.2,vy:(Math.random()-.5)*1.2,r:7,type:'cat',color:d.catColor,isPrec:false});
+    molParticles.push({x:100+Math.random()*300,y:20+Math.random()*160,vx:(Math.random()-.5)*1.2,vy:(Math.random()-.5)*1.2,r:7,type:'an',color:d.anColor,isPrec:false});
+  }
+}
+
+function animMolCanvas(){
+  const canvas=document.getElementById('mol-canvas');
+  if(!canvas){requestAnimationFrame(animMolCanvas);return;}
+  const ctx=canvas.getContext('2d');
+  const W=canvas.offsetWidth||840,H=canvas.height;
+  canvas.width=W;
+  const tc=getThemeColors();
+  ctx.fillStyle=tc.bg;ctx.fillRect(0,0,W,H);
+  // Draw particles
+  const precFrac=Math.min(ciSliderVal/SIM_SALTS[currentSimSalt].maxCI,0.95);
+  const nPrec=Math.floor(molParticles.length*precFrac*0.5);
+  molParticles.forEach((p,i)=>{
+    p.isPrec = i<nPrec;
+    if(!p.isPrec){
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<8||p.x>W-8) p.vx*=-1;
+      if(p.y<8||p.y>H-8) p.vy*=-1;
+    } else {
+      // settle to bottom-right (precipitate)
+      const tx=W-80+Math.cos(i)*25,ty=H-30+Math.sin(i)*12;
+      p.x+=(tx-p.x)*0.04;p.y+=(ty-p.y)*0.04;
+    }
+    ctx.fillStyle=p.isPrec?'#7a5c3a':p.color;
+    ctx.globalAlpha=p.isPrec?.7:1;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+    ctx.globalAlpha=1;
+  });
+  // Label zones
+  ctx.fillStyle=tc.txt;ctx.font='10px DM Sans,sans-serif';ctx.textAlign='left';
+  ctx.fillText('Solution zone',8,14);
+  if(precFrac>0.05){ctx.textAlign='right';ctx.fillText('Precipitate',W-8,H-8);}
+  requestAnimationFrame(animMolCanvas);
+}
+
+function animateCommonIon(){
+  let v=0;
+  const slider=document.getElementById('ci-slider');
+  const target=parseInt(slider.value)||50;
+  slider.value=0;ciSliderVal=0;
+  function step(){
+    v+=2;if(v>target){v=target;}
+    slider.value=v;
+    updateCISlider();
+    if(v<target) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+function resetSim(){
+  document.getElementById('ci-slider').value=0;
+  ciSliderVal=0;
+  updateCISlider();
+  drawCICanvas();
+}
+
+// ── Selective Precipitation ──
+const SP_SYSTEMS = {
+  halides:{
+    ions:[
+      {name:'I⁻',color:'#9055e8',ksp:8.52e-17,salt:'AgI',m:1,n:1,catLabel:'Ag⁺'},
+      {name:'Br⁻',color:'#e8a84d',ksp:5.35e-13,salt:'AgBr',m:1,n:1,catLabel:'Ag⁺'},
+      {name:'Cl⁻',color:'#19c794',ksp:1.77e-10,salt:'AgCl',m:1,n:1,catLabel:'Ag⁺'}
+    ],
+    reagent:'Ag⁺ (from AgNO₃)',
+    title:'AgNO₃ added to I⁻/Br⁻/Cl⁻ mixture'
+  },
+  sulfate:{
+    ions:[
+      {name:'CrO₄²⁻',color:'#e8a84d',ksp:1.17e-10,salt:'BaCrO₄',m:1,n:1,catLabel:'Ba²⁺'},
+      {name:'SO₄²⁻', color:'#4db0e8',ksp:1.08e-10,salt:'BaSO₄', m:1,n:1,catLabel:'Ba²⁺'}
+    ],
+    reagent:'Ba²⁺ (from BaCl₂)',
+    title:'BaCl₂ added to SO₄²⁻/CrO₄²⁻ mixture'
+  },
+  hydroxide:{
+    ions:[
+      {name:'Fe²⁺',color:'#e85c5c',ksp:4.87e-17,salt:'Fe(OH)₂',m:1,n:2,catLabel:'OH⁻'},
+      {name:'Mg²⁺',color:'#4db0e8',ksp:5.61e-12,salt:'Mg(OH)₂',m:1,n:2,catLabel:'OH⁻'},
+      {name:'Ca²⁺',color:'#19c794',ksp:5.02e-6, salt:'Ca(OH)₂',m:1,n:2,catLabel:'OH⁻'}
+    ],
+    reagent:'OH⁻ (from NaOH)',
+    title:'NaOH added to Fe²⁺/Mg²⁺/Ca²⁺ mixture'
+  }
+};
+let spSystemKey='halides';
+let spBaseConc=0.05;
+let spReagentConc=0;
+
+function updateSPSystem(){
+  spSystemKey=document.getElementById('sp-system').value;
+  spReagentConc=0;
+  document.getElementById('sp-reagent-slider').value=0;
+  updateRangeStyle('sp-reagent-slider');
+  updateSPSlider();
+  drawSPCanvas();
+  updateSPStatus();
+}
+function updateSPSlider(){
+  const v=parseInt(document.getElementById('sp-conc-slider').value);
+  spBaseConc=v/1000;
+  document.getElementById('sp-conc-val').textContent=spBaseConc.toFixed(3)+' mol dm⁻³';
+  updateRangeStyle('sp-conc-slider');
+  drawSPCanvas();updateSPStatus();
+}
+function updateSPReagent(){
+  const v=parseInt(document.getElementById('sp-reagent-slider').value);
+  spReagentConc=v/1000;
+  document.getElementById('sp-reagent-val').textContent=spReagentConc.toFixed(3)+' mol dm⁻³';
+  updateRangeStyle('sp-reagent-slider');
+  drawSPCanvas();updateSPStatus();
+}
+function drawSPCanvas(){
+  const canvas=document.getElementById('sp-canvas');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  const tc=getThemeColors();
+  ctx.fillStyle=tc.bg;ctx.fillRect(0,0,W,H);
+  const sys=SP_SYSTEMS[spSystemKey];
+  const pad={l:55,r:20,t:20,b:50};
+  const pw=W-pad.l-pad.r,ph=H-pad.t-pad.b;
+  // axes
+  ctx.strokeStyle=tc.ax;ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(pad.l,pad.t);ctx.lineTo(pad.l,pad.t+ph);ctx.lineTo(pad.l+pw,pad.t+ph);ctx.stroke();
+  ctx.fillStyle=tc.txt;ctx.font='11px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText('['+sys.reagent+'] (mol dm⁻³)',pad.l+pw/2,H-8);
+  ctx.save();ctx.translate(14,pad.t+ph/2);ctx.rotate(-Math.PI/2);ctx.fillText('[Remaining ion] (mol dm⁻³)',0,0);ctx.restore();
+  const maxReag=0.2;
+  const nPts=100;
+  // For each ion, calculate remaining conc vs reagent
+  const allConcs=[];
+  sys.ions.forEach(ion=>{
+    const pts=[];
+    for(let i=0;i<=nPts;i++){
+      const reagC=maxReag*i/nPts;
+      // ionic product Q = (reagC)^ion.m * (c)^ion.n
+      // precipitate when reagC^m * spBaseConc^n > ksp
+      // remaining [ion] = ksp/(reagC)^m when precipitating, else spBaseConc
+      let remConc;
+      if(ion.m===1&&ion.n===1){
+        remConc=reagC>0?Math.min(spBaseConc,ion.ksp/reagC):spBaseConc;
+      } else {
+        remConc=reagC>0?Math.min(spBaseConc,Math.pow(ion.ksp/Math.pow(reagC,ion.m),1/ion.n)):spBaseConc;
+      }
+      pts.push({x:reagC,y:remConc});
+    }
+    allConcs.push(pts);
+  });
+  // y scale log
+  const allY=allConcs.flat().map(p=>p.y).filter(y=>y>0);
+  const yMax=spBaseConc*1.2;
+  const yMin=Math.min(...allY,1e-14)*0.5;
+  const toY=v=>{
+    const logMax=Math.log10(yMax),logMin=Math.log10(yMin);
+    return pad.t+ph*(1-(Math.log10(Math.max(v,yMin))-logMin)/(logMax-logMin));
+  };
+  const toX=x=>pad.l+pw*(x/maxReag);
+  // grid
+  ctx.strokeStyle=tc.grid;ctx.lineWidth=0.5;ctx.setLineDash([3,4]);
+  for(let i=1;i<=4;i++){
+    const y=pad.t+ph*i/5;
+    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(pad.l+pw,y);ctx.stroke();
+  }
+  ctx.setLineDash([]);
+  // draw curves
+  allConcs.forEach((pts,idx)=>{
+    const ion=sys.ions[idx];
+    ctx.strokeStyle=ion.color;ctx.lineWidth=2.5;
+    ctx.beginPath();
+    pts.forEach((p,i)=>{
+      const x=toX(p.x),y=toY(p.y);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.stroke();
+    // label at end
+    const last=pts[pts.length-1];
+    ctx.fillStyle=ion.color;ctx.font='bold 10px DM Sans,sans-serif';ctx.textAlign='right';
+    ctx.fillText(ion.name,pad.l+pw-3,toY(last.y)-4);
+  });
+  // current reagent line
+  const curX=toX(spReagentConc);
+  ctx.strokeStyle='rgba(255,255,255,.3)';ctx.lineWidth=1;ctx.setLineDash([4,3]);
+  ctx.beginPath();ctx.moveTo(curX,pad.t);ctx.lineTo(curX,pad.t+ph);ctx.stroke();
+  ctx.setLineDash([]);
+}
+function updateSPStatus(){
+  const sys=SP_SYSTEMS[spSystemKey];
+  const grid=document.getElementById('sp-status-grid');
+  let html='';
+  sys.ions.forEach(ion=>{
+    let remConc;
+    if(ion.m===1&&ion.n===1){
+      remConc=spReagentConc>0?Math.min(spBaseConc,ion.ksp/spReagentConc):spBaseConc;
+    } else {
+      remConc=spReagentConc>0?Math.min(spBaseConc,Math.pow(ion.ksp/Math.pow(spReagentConc,ion.m),1/ion.n)):spBaseConc;
+    }
+    const pctRemain=remConc/spBaseConc*100;
+    const precipitated=pctRemain<99;
+    const mostly=pctRemain<1;
+    html+=`
+      <div class="card" style="background:var(--surf2);border-color:${ion.color}40">
+        <div style="display:flex;align-items:center;gap:.4rem;margin-bottom:.4rem">
+          <div style="width:10px;height:10px;border-radius:50%;background:${ion.color}"></div>
+          <span style="font-weight:700;font-size:.9rem">${ion.name}</span>
+        </div>
+        <div style="font-size:.78rem;color:var(--txt-s);margin-bottom:.3rem">${ion.salt} (K<sub>sp</sub>=${sciHTML(ion.ksp,2)})</div>
+        <div style="font-size:.82rem">Remaining: <strong style="color:${ion.color}">${sciHTML(remConc,2)} mol dm⁻³</strong></div>
+        <div style="font-size:.78rem;color:var(--txt-s)">${pctRemain.toFixed(1)}% remains in solution</div>
+        <div style="margin-top:.4rem;padding:.25rem .5rem;border-radius:4px;font-size:.72rem;font-weight:700;
+          background:${mostly?'var(--acc-g)':precipitated?'var(--gold-g)':'var(--blue-g)'};
+          color:${mostly?'var(--acc)':precipitated?'var(--gold)':'var(--blue)'};
+          border:1px solid ${mostly?'var(--acc)':precipitated?'var(--gold)':'var(--blue)'}">
+          ${mostly?'✓ Mostly precipitated':precipitated?'⚡ Partially precipitated':'◦ In solution'}
+        </div>
+      </div>`;
+  });
+  grid.innerHTML=html;
+}
+function animateSP(){
+  let v=parseInt(document.getElementById('sp-reagent-slider').value)||0;
+  const target=200;
+  function step(){
+    v+=3;if(v>target)v=target;
+    document.getElementById('sp-reagent-slider').value=v;
+    updateSPReagent();
+    if(v<target) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+function resetSP(){
+  document.getElementById('sp-reagent-slider').value=0;
+  updateSPReagent();
+}
+
+// ── Ionic Product Meter ──
+const QM_SALTS={
+  AgCl:{ksp:1.77e-10,m:1,n:1,cat:'Ag⁺',an:'Cl⁻'},
+  BaSO4:{ksp:1.08e-10,m:1,n:1,cat:'Ba²⁺',an:'SO₄²⁻'},
+  CaF2:{ksp:3.45e-11,m:1,n:2,cat:'Ca²⁺',an:'F⁻'},
+  PbSO4:{ksp:2.53e-8,m:1,n:1,cat:'Pb²⁺',an:'SO₄²⁻'},
+  MgOH2:{ksp:5.61e-12,m:1,n:2,cat:'Mg²⁺',an:'OH⁻'}
+};
+function updateQM(){
+  const key=document.getElementById('qm-salt').value;
+  const d=QM_SALTS[key];
+  const catExp=parseFloat(document.getElementById('qm-cat-sl').value);
+  const anExp=parseFloat(document.getElementById('qm-an-sl').value);
+  const catC=Math.pow(10,catExp),anC=Math.pow(10,anExp);
+  document.getElementById('qm-cat-lbl').textContent='log['+d.cat+']';
+  document.getElementById('qm-an-lbl').textContent='log['+d.an+']';
+  document.getElementById('qm-cat-val').textContent='10^'+catExp.toFixed(1);
+  document.getElementById('qm-an-val').textContent='10^'+anExp.toFixed(1);
+  updateRangeStyle('qm-cat-sl');updateRangeStyle('qm-an-sl');
+  const Q=Math.pow(catC,d.m)*Math.pow(anC,d.n);
+  const ratio=Q/d.ksp;
+  document.getElementById('qm-q-val').innerHTML=sciHTML(Q,3);
+  document.getElementById('qm-ksp-val').innerHTML=sciHTML(d.ksp,3);
+  document.getElementById('qm-ratio').textContent=ratio.toPrecision(3);
+  let v,color,txt;
+  if(Math.abs(ratio-1)<0.05){v=50;color='var(--gold)';txt='⚖️ At Equilibrium';}
+  else if(ratio>1){v=50+Math.min(50,Math.log10(ratio)*20);color='var(--red)';txt='🌧️ Q > Ksp: Precipitation';}
+  else{v=50-Math.min(49,Math.log10(1/ratio)*20);color='var(--grn)';txt='✅ Q < Ksp: Unsaturated';}
+  document.getElementById('qm-verdict').innerHTML=`<span style="color:${color}">${txt}</span>`;
+  drawQMCanvas(v,color,ratio);
+}
+function drawQMCanvas(needleVal,needleColor,ratio){
+  const canvas=document.getElementById('qm-canvas');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  const tc=getThemeColors();
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle=tc.bg;ctx.fillRect(0,0,W,H);
+  const cx=W/2,cy=H*0.65,R=130;
+  // Background arc
+  const a0=Math.PI*0.75,a1=Math.PI*2.25;
+  ctx.beginPath();ctx.arc(cx,cy,R,a0,a1);
+  ctx.strokeStyle=tc.grid;ctx.lineWidth=20;ctx.lineCap='butt';ctx.stroke();
+  // Colour zones
+  const drawZone=(sa,ea,col)=>{ctx.beginPath();ctx.arc(cx,cy,R,sa,ea);ctx.strokeStyle=col;ctx.lineWidth=20;ctx.stroke();};
+  drawZone(a0,a0+(a1-a0)*0.42,'#4de880');
+  drawZone(a0+(a1-a0)*0.42,a0+(a1-a0)*0.58,'#e8a84d');
+  drawZone(a0+(a1-a0)*0.58,a1,'#e85c5c');
+  // Inner ring
+  ctx.beginPath();ctx.arc(cx,cy,R-15,0,Math.PI*2);ctx.fillStyle=tc.bg;ctx.fill();
+  // Needle
+  const nv=Math.max(0,Math.min(100,needleVal||50));
+  const na=a0+(a1-a0)*nv/100;
+  ctx.strokeStyle=needleColor||'#e85c5c';ctx.lineWidth=3;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(cx,cy);
+  ctx.lineTo(cx+Math.cos(na)*(R-22),cy+Math.sin(na)*(R-22));ctx.stroke();
+  ctx.fillStyle=needleColor||'#e85c5c';ctx.beginPath();ctx.arc(cx,cy,7,0,Math.PI*2);ctx.fill();
+  // Labels
+  ctx.fillStyle=tc.txt;ctx.font='11px DM Sans,sans-serif';ctx.textAlign='center';
+  const labels=[['Unsaturated',0.15,'#4de880'],['Equilibrium',0.5,'#e8a84d'],['Supersaturated',0.85,'#e85c5c']];
+  labels.forEach(([lbl,frac,col])=>{
+    const a=a0+(a1-a0)*frac;
+    ctx.fillStyle=col;ctx.font='10px DM Sans,sans-serif';
+    ctx.fillText(lbl,cx+Math.cos(a)*(R+20),cy+Math.sin(a)*(R+20));
+  });
+  // Centre text
+  ctx.fillStyle=tc.txt;ctx.font='bold 12px DM Sans,sans-serif';ctx.textAlign='center';
+  ctx.fillText('Q / K\u209b\u209a',cx,cy+30);
+  ctx.fillStyle=needleColor;ctx.font='bold 20px JetBrains Mono,monospace';
+  ctx.fillText(ratio?ratio.toPrecision(3):'—',cx,cy+52);
+}
+
+function redrawAllCanvas(){
+  drawCICanvas();
+  if(document.getElementById('sp-canvas')) drawSPCanvas();
+  updateQM();
+}
+
+// ══════════════════════════════════════════
+//  SETTINGS
+// ══════════════════════════════════════════
+function loadSettings(){
+  settings=JSON.parse(localStorage.getItem('ksp-settings')||'{}');
+  const defaults={sf:3,steps:true,units:true,pksp:true,'auto-open':true,'scroll-open':true,'obj-tags':true,'lib-sort':'name',compact:false};
+  Object.assign(defaults,settings);settings=defaults;
+  // Apply
+  ['sf','lib-sort'].forEach(k=>{const el=document.getElementById('stg-'+k);if(el) el.value=settings[k];});
+  ['steps','units','pksp','auto-open','scroll-open','obj-tags','compact'].forEach(k=>{
+    const el=document.getElementById('stg-'+k.replace(/[^a-z-]/g,''));
+    if(el) el.checked=settings[k];
+  });
+  applyCompact();
+}
+function saveSettings(){
+  settings.sf=parseInt(document.getElementById('stg-sf')?.value)||3;
+  settings['lib-sort']=document.getElementById('stg-lib-sort')?.value||'name';
+  ['steps','units','pksp','compact'].forEach(k=>{
+    const el=document.getElementById('stg-'+k);
+    if(el) settings[k]=el.checked;
+  });
+  ['auto-open','scroll-open','obj-tags'].forEach(k=>{
+    const el=document.getElementById('stg-'+k);
+    if(el) settings[k]=el.checked;
+  });
+  localStorage.setItem('ksp-settings',JSON.stringify(settings));
+  applyCompact();
+}
+function applyCompact(){
+  const compact=document.getElementById('stg-compact')?.checked||false;
+  document.body.classList.toggle('compact-mode',compact);
+}
+function resetAllSettings(){
+  localStorage.removeItem('ksp-settings');
+  localStorage.removeItem('ksp-theme');
+  localStorage.removeItem('ksp-fs');
+  applyTheme('dark');applyFS(16);
+  loadSettings();
+}
+</script>
+</body>
+</html>
